@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organización Discapacidad</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+    <div class="container-sm mobile-wrapper bg-white shadow p-0 min-vh-100 d-flex flex-column">
+        
+        <!-- CABECERA -->
+        <header class="d-flex justify-content-between align-items-center p-3 border-bottom">
+            <div class="d-flex align-items-center gap-2">
+                <!-- Ícono temporal simulando el logo -->
+                <i class="fa-solid fa-handshake fs-1" style="color: #2e86c1;"></i>
+                <h1 class="header-title mb-0">
+                    Organización de Padres<br>y Amigos de Personas<br>con Discapacidad
+                </h1>
+            </div>
+            <button class="btn btn-primary menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral" aria-controls="menuLateral">
+                <i class="fa-solid fa-bars fs-4"></i>
+            </button>
+        </header>
+
+        <main class="flex-grow-1 p-3">
+            
+            <!-- SECCIÓN FEED (Simulando el plugin de FB) -->
+            <div class="feed-card rounded-4 mb-4 position-relative overflow-hidden shadow-sm" id="seccion-feed">
+                <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=500&auto=format&fit=crop" alt="Actividades" class="w-100 object-fit-cover" style="height: 180px;">
+                <div class="feed-overlay position-absolute bottom-0 w-100 p-3 text-white">
+                    <h2 class="h5 fw-bold mb-0">¡Nuestras actividades<br>y reuniones!</h2>
+                    <i class="fa-brands fa-facebook fs-4 position-absolute bottom-0 end-0 m-3"></i>
+                </div>
+            </div>
+
+            <!-- SECCIÓN QUÉ RECIBIMOS -->
+            <div class="card custom-border mb-4 shadow-sm" id="seccion-recibimos">
+                <div class="card-body p-4">
+                    <h2 class="h5 text-center fw-bold custom-text-blue mb-4">
+                        <i class="fa-solid fa-hand-holding-heart text-danger me-2"></i>¿Qué recibimos?
+                    </h2>
+                    
+                    <!-- Item 1 -->
+                    <div class="donation-item bg-light rounded-4 p-3 mb-3 d-flex align-items-center shadow-sm border border-white">
+                        <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
+                            <i class="fa-solid fa-wheelchair text-success fs-4"></i>
+                        </div>
+                        <p class="mb-0 fw-medium text-dark lh-sm" style="font-size: 0.95rem;">Sillas de ruedas,<br>bastones, camas clínicas</p>
+                    </div>
+                    
+                    <!-- Item 2 -->
+                    <div class="donation-item bg-light rounded-4 p-3 mb-3 d-flex align-items-center shadow-sm border border-white">
+                        <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
+                            <i class="fa-solid fa-pump-medical text-success fs-4"></i>
+                        </div>
+                        <p class="mb-0 fw-medium text-dark lh-sm" style="font-size: 0.95rem;">Pañales e insumos<br>médicos</p>
+                    </div>
+                    
+                    <!-- Item 3 -->
+                    <div class="donation-item bg-light rounded-4 p-3 d-flex align-items-center shadow-sm border border-white">
+                        <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
+                            <i class="fa-solid fa-basket-shopping text-success fs-4"></i>
+                        </div>
+                        <p class="mb-0 fw-medium text-dark lh-sm" style="font-size: 0.95rem;">Alimentos y juguetes<br>(Campañas)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECCIÓN DATOS PARA DONACIÓN -->
+            <div class="card custom-border mb-4 shadow-sm" id="seccion-donacion">
+                <div class="card-body p-4">
+                    <h2 class="h5 text-center fw-bold custom-text-blue mb-3">DATOS PARA DONACIÓN</h2>
+                    <p class="mb-0"><strong>Banco:</strong> BancoEstado</p>
+                    <p class="mb-0"><strong>Tipo de Cuenta:</strong> Chequera Electrónica</p>
+                    <p class="mb-0"><strong>Número:</strong> 123456789</p>
+                    <p class="mb-0"><strong>RUT:</strong> 71.123.456-K</p>
+                    <p class="mb-3"><strong>Correo:</strong> contacto@organizacion.cl</p>
+                    
+                    <button class="btn btn-success w-100 fw-bold rounded-3 shadow-sm py-2">
+                        Copiar datos de transferencia<br>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN UBICACIÓN -->
+            <div class="card custom-border mb-2 shadow-sm" id="seccion-ubicacion">
+                <div class="card-body p-4 text-center">
+                    <h2 class="h5 fw-bold custom-text-blue mb-3">Ubicación y Contacto</h2>
+                    <!-- Placeholder del Mapa -->
+                    <div class="map-container mb-3 position-relative bg-light rounded overflow-hidden border">
+                        <i class="fa-solid fa-location-dot text-danger position-absolute top-50 start-50 translate-middle fs-1"></i>
+                    </div>
+                    <p class="mb-3"><strong>Comuna:</strong> Huechuraba</p>
+                    <p class="mb-3"> <strong>Direccion:</strong> calle #132</p>
+                    
+                    <a href="tel:+56912345678" class="btn btn-success w-100 fw-bold rounded-3 shadow-sm py-2 text-decoration-none text-white">
+                        Llamar / Contacto:<br>
+                        <span class="fw-normal" style="font-size: 0.85rem;">+56 9 1234 5678</span>
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer-bg p-4 text-center position-relative mt-4">
+            <p class="mb-1 small">¿Quiénes Somos?</p>
+            <p class="mb-1 small">Ubicación y Contacto</p>
+            <p class="mb-2 small">Donaciones</p>
+            <p class="mb-0 fw-bold custom-text-blue small">@organizacion.discapacidad</p>
+            
+            <!-- Botón de acceso a inventario -->
+            <a href="/login" class="admin-access text-decoration-none text-secondary bg-white rounded border shadow-sm" title="Acceso Voluntarios">
+                <i class="fa-solid fa-rotate fs-4 mb-1" style="color: #3498db;"></i><br>
+                <span style="font-size: 0.5rem; font-weight: bold;">VOLUNTARIOS</span>
+            </a>
+        </footer>
+
+    </div>
+
+    <!-- Menú Lateral (Offcanvas de Bootstrap) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="menuLateral" style="max-width: 300px;">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title fw-bold custom-text-blue">Navegación</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="list-group list-group-flush fs-5">
+                <!-- Agregamos la clase 'enlace-menu' y quitamos el data-bs-dismiss -->
+                <a href="#seccion-feed" class="list-group-item list-group-item-action border-0 py-3 enlace-menu">
+                    <i class="fa-solid fa-newspaper text-primary me-3"></i>Novedades
+                </a>
+                <a href="#seccion-recibimos" class="list-group-item list-group-item-action border-0 py-3 enlace-menu">
+                    <i class="fa-solid fa-hand-holding-heart text-danger me-3"></i>¿Qué recibimos?
+                </a>
+                <a href="#seccion-donacion" class="list-group-item list-group-item-action border-0 py-3 enlace-menu">
+                    <i class="fa-solid fa-hand-holding-dollar text-success me-3"></i>Donaciones
+                </a>
+                <a href="#seccion-ubicacion" class="list-group-item list-group-item-action border-0 py-3 enlace-menu">
+                    <i class="fa-solid fa-location-dot text-danger me-3"></i>Ubicación y Contacto
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT OBLIGATORIO DE BOOTSTRAP -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Tu script personalizado -->
+    <script src="script.js"></script>
+
+</body>
+</html>

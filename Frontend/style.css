@@ -1,0 +1,74 @@
+html {
+    scroll-behavior: smooth;
+}
+
+/* Configuración Mobile First */
+.mobile-wrapper {
+    max-width: 420px; /* Ancho típico de celular */
+    margin: 0 auto;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Colores institucionales según su diseño */
+.custom-text-blue { color: #0f3d61; }
+.btn-primary { background-color: #2980b9; border-color: #2980b9; }
+.btn-success { background-color: #1a9c54; border-color: #1a9c54; }
+.btn-success:hover { background-color: #147a42; border-color: #147a42; }
+
+/* Tipografía de la cabecera */
+.header-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #0f3d61;
+    line-height: 1.2;
+}
+
+/* Bordes curvos azules de las tarjetas */
+.custom-border {
+    border: 1.5px solid #2980b9;
+    border-radius: 12px;
+}
+
+/* Sección FEED */
+.feed-overlay {
+    background: linear-gradient(to top, rgba(15, 61, 97, 0.9) 0%, rgba(15, 61, 97, 0) 100%);
+}
+
+/* Placeholder del mapa */
+.map-container {
+    height: 140px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect width="10" height="10" fill="%23f0f0f0"/><path d="M0 10 L10 0" stroke="%23e0e0e0" stroke-width="0.5"/></svg>');
+}
+
+/* Fondo del footer */
+.footer-bg {
+    background-color: #e8f4f8; /* Azul muy clarito */
+    color: #444;
+}
+
+/* Botón flotante para voluntarios en el footer */
+.admin-access {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+}
+.admin-access:hover {
+    transform: scale(1.05);
+}
+
+/* Estilo minimalista e interactivo para la lista de donaciones */
+.donation-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.donation-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1) !important;
+}
