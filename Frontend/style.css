@@ -2,12 +2,6 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Configuración Mobile First */
-.mobile-wrapper {
-    max-width: 420px; /* Ancho típico de celular */
-    margin: 0 auto;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
 
 /* Colores institucionales según su diseño */
 .custom-text-blue { color: #0f3d61; }
