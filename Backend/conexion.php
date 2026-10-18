@@ -4,7 +4,6 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-// Si el navegador manda una petición OPTIONS (por seguridad), terminamos aquí y le damos luz verde.
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit();
 }
