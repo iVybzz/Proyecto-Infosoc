@@ -1,9 +1,9 @@
 <?php
 
-$host = "localhost";
-$dbname = "inventario???"; // cambiar al nombre de la base
-$username = "root";         
-$password = "";         
+$host = "sql200.infinityfree.com";
+$dbname = "if0_43211338_infosoc"; 
+$username = "if0_43211338";         
+$password = "Infosoc10";         
 
 try {
     //dsn
