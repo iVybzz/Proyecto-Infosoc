@@ -1,4 +1,13 @@
 <?php
+//CORS
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+// Si el navegador manda una petición OPTIONS (por seguridad), terminamos aquí y le damos luz verde.
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit();
+}
 
 $host = "sql200.infinityfree.com";
 $dbname = "if0_43211338_infosoc"; 
@@ -19,6 +28,7 @@ try {
     
 } catch (PDOException $e) {
     // por si falla
-    die("Error crítico de conexión: " . $e->getMessage());
+    echo json_encode(["error" => "Error crítico de conexión: " . $e->getMessage()]);
+    exit();
 }
 ?>
