@@ -6,14 +6,14 @@
     <title>Organización Discapacidad</title>
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome para los íconos -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-light">
 
-    <!-- Cambiamos "mobile-wrapper" por "desktop-wrapper" para que crezca en PC -->
-    <div class="container desktop-wrapper bg-white shadow p-0 min-vh-100 d-flex flex-column">
+    <!-- Contenedor principal sin restricciones de zoom extrañas -->
+    <div class="container bg-white shadow p-0 min-vh-100 d-flex flex-column">
         
         <!-- CABECERA ORIGINAL -->
         <header class="d-flex justify-content-between align-items-center p-3 border-bottom">
@@ -23,143 +23,168 @@
                     Organización de Padres<br>y Amigos de Personas<br>con Discapacidad
                 </h1>
             </div>
-            <!-- Menú hamburguesa original -->
-            <button class="btn btn-primary menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral" aria-controls="menuLateral">
+            <button class="btn btn-primary menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
                 <i class="fa-solid fa-bars fs-4"></i>
             </button>
         </header>
 
         <main class="flex-grow-1 p-4">
-            
-            <!-- GRILLA RESPONSIVA: En PC se divide, en celular se apila -->
+            <!-- INICIO DE LA NUEVA GRILLA -->
             <div class="row g-4">
                 
-                <!-- COLUMNA IZQUIERDA (Ocupa más espacio en PC) -->
-                <div class="col-lg-7">
-                    
-                    <!-- SECCIÓN FEED ORIGINAL -->
-                    <div class="feed-card rounded-4 mb-4 position-relative overflow-hidden shadow-sm" id="seccion-feed">
-                        <!-- Imagen un poco más alta para PC -->
-                        <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=800&auto=format&fit=crop" alt="Actividades" class="w-100 object-fit-cover" style="height: 250px;">
+                <!-- 1. NOTICIAS (Arriba, ancho completo: 12 columnas) -->
+                <div class="col-12">
+                    <div class="feed-card rounded-4 position-relative overflow-hidden shadow-sm" id="seccion-feed">
+                        <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=1200&auto=format&fit=crop" alt="Actividades" class="w-100 object-fit-cover" style="height: 300px;">
                         <div class="feed-overlay position-absolute bottom-0 w-100 p-3 text-white">
-                            <h2 class="h5 fw-bold mb-0">¡Nuestras actividades<br>y reuniones!</h2>
+                            <h2 class="h5 fw-bold mb-0">¡Nuestras actividades y reuniones!</h2>
                             <i class="fa-brands fa-facebook fs-4 position-absolute bottom-0 end-0 m-3"></i>
                         </div>
                     </div>
+                </div>
 
-                    <!-- SECCIÓN QUÉ RECIBIMOS ORIGINAL -->
-                    <div class="card custom-border mb-4 shadow-sm" id="seccion-recibimos">
-                        <div class="card-body p-4">
-                            <h2 class="h5 text-center fw-bold custom-text-blue mb-4">
-                                <i class="fa-solid fa-hand-holding-heart text-danger me-2"></i>¿Qué recibimos?
+                <!-- 2. QUIÉNES SOMOS (Izquierda: 7 columnas) -->
+                <div class="col-lg-7">
+                    <div class="card custom-border shadow-sm h-100" id="seccion-quienes-somos">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h2 class="h5 fw-bold custom-text-blue mb-4">
+                                <i class="fa-solid fa-users text-primary me-2"></i>Quiénes Somos
                             </h2>
+                            <p class="mb-3" style="font-size: 1.1rem; line-height: 1.6;">
+                                Somos una organización sin fines de lucro dedicada a apoyar, integrar y mejorar la calidad de vida de personas con discapacidad y sus familias. Nuestro objetivo es crear una comunidad de apoyo mutuo, donde el respeto y la empatía sean la base de todas nuestras acciones.
+                            </p>
+                            <p class="mb-4" style="font-size: 1.1rem; line-height: 1.6;">
+                                Trabajamos diariamente para facilitar el acceso a insumos médicos, terapias y espacios de recreación, creyendo firmemente que juntos podemos derribar barreras y construir un entorno más inclusivo para todos.
+                            </p>
                             
-                            <!-- Items originales -->
-                            <div class="donation-item bg-light rounded-4 p-3 mb-3 d-flex align-items-center shadow-sm border border-white">
-                                <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
-                                    <i class="fa-solid fa-wheelchair text-success fs-4"></i>
-                                </div>
-                                <p class="mb-0 fw-medium text-dark lh-sm" style="font-size: 0.95rem;">Sillas de ruedas,<br>bastones, camas clínicas</p>
-                            </div>
-                            
-                            <div class="donation-item bg-light rounded-4 p-3 mb-3 d-flex align-items-center shadow-sm border border-white">
-                                <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
-                                    <i class="fa-solid fa-pump-medical text-success fs-4"></i>
-                                </div>
-                                <p class="mb-0 fw-medium text-dark lh-sm" style="font-size: 0.95rem;">Pañales e insumos<br>médicos</p>
-                            </div>
-                            
-                            <div class="donation-item bg-light rounded-4 p-3 d-flex align-items-center shadow-sm border border-white">
-                                <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
-                                    <i class="fa-solid fa-basket-shopping text-success fs-4"></i>
-                                </div>
-                                <p class="mb-0 fw-medium text-dark lh-sm" style="font-size: 0.95rem;">Alimentos y juguetes<br>(Campañas)</p>
+                            <!-- IMAGEN DE RELLENO (Empujada hacia abajo automáticamente) -->
+                            <div class="mt-auto rounded-4 overflow-hidden shadow-sm border border-white">
+                                <img src="img/comunidad.jpg" alt="Nuestra Comunidad" class="w-100 object-fit-cover" style="height: 240px;">
                             </div>
                         </div>
                     </div>
-                </div> <!-- FIN COLUMNA IZQUIERDA -->
+                </div>
 
-                <!-- COLUMNA DERECHA (Ocupa menos espacio en PC) -->
+                <!-- 3. COLUMNA DERECHA (5 columnas): Agrupa Qué Recibimos y Donación -->
                 <div class="col-lg-5">
-                    
-                    <!-- SECCIÓN DATOS PARA DONACIÓN ORIGINAL -->
-                    <div class="card custom-border mb-4 shadow-sm" id="seccion-donacion">
-                        <div class="card-body p-4">
-                            <h2 class="h5 text-center fw-bold custom-text-blue mb-3">DATOS PARA DONACIÓN</h2>
-                            <p class="mb-0"><strong>Banco:</strong> BancoEstado</p>
-                            <p class="mb-0"><strong>Tipo de Cuenta:</strong> Chequera Electrónica</p>
-                            <p class="mb-0"><strong>Número:</strong> 123456789</p>
-                            <p class="mb-0"><strong>RUT:</strong> 71.123.456-K</p>
-                            <p class="mb-3"><strong>Correo:</strong> contacto@organizacion.cl</p>
-                            
-                            <button class="btn btn-success w-100 fw-bold rounded-3 shadow-sm py-2">
-                                Copiar datos de transferencia<br>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- SECCIÓN UBICACIÓN ORIGINAL -->
-                    <div class="card custom-border mb-2 shadow-sm" id="seccion-ubicacion">
-                        <div class="card-body p-4 text-center">
-                            <h2 class="h5 fw-bold custom-text-blue mb-3">Ubicación y Contacto</h2>
-                            <div class="map-container mb-3 position-relative bg-light rounded overflow-hidden border">
-                                <i class="fa-solid fa-location-dot text-danger position-absolute top-50 start-50 translate-middle fs-1"></i>
+                    <div class="row g-4">
+                        
+                        <!-- QUÉ RECIBIMOS -->
+                        <div class="col-12">
+                            <div class="card custom-border shadow-sm" id="seccion-recibimos">
+                                <div class="card-body p-4">
+                                    <h2 class="h5 text-center fw-bold custom-text-blue mb-4">
+                                        <i class="fa-solid fa-hand-holding-heart text-danger me-2"></i>¿Qué recibimos?
+                                    </h2>
+                                    <div class="donation-item bg-light rounded-4 p-3 mb-3 d-flex align-items-center shadow-sm border border-white">
+                                        <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
+                                            <i class="fa-solid fa-wheelchair text-success fs-4"></i>
+                                        </div>
+                                        <p class="mb-0 fw-medium text-dark">Sillas de ruedas,<br>bastones, camas clínicas</p>
+                                    </div>
+                                    <div class="donation-item bg-light rounded-4 p-3 mb-3 d-flex align-items-center shadow-sm border border-white">
+                                        <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
+                                            <i class="fa-solid fa-pump-medical text-success fs-4"></i>
+                                        </div>
+                                        <p class="mb-0 fw-medium text-dark">Pañales e insumos<br>médicos</p>
+                                    </div>
+                                    <div class="donation-item bg-light rounded-4 p-3 d-flex align-items-center shadow-sm border border-white">
+                                        <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
+                                            <i class="fa-solid fa-basket-shopping text-success fs-4"></i>
+                                        </div>
+                                        <p class="mb-0 fw-medium text-dark">Alimentos y juguetes<br>(Campañas)</p>
+                                    </div>
+                                </div>
                             </div>
-                            <p class="mb-3"><i class="fa-solid fa-location-dot me-2"></i>Av. Providencia 1234, Santiago</p>
-                            
-                            <a href="tel:+56912345678" class="btn btn-success w-100 fw-bold rounded-3 shadow-sm py-2 text-decoration-none text-white">
-                                Llamar / Contacto:<br>
-                                <span class="fw-normal" style="font-size: 0.85rem;">+56 9 1234 5678</span>
-                            </a>
                         </div>
+
+                        <!-- DATOS PARA DONACIÓN -->
+                        <div class="col-12">
+                            <div class="card custom-border shadow-sm" id="seccion-donacion">
+                                <div class="card-body p-4">
+                                    <h2 class="h5 text-center fw-bold custom-text-blue mb-4"><i class="fa-solid fa-hand-holding-dollar me-2" style="color: rgb(33, 140, 24);"></i>DATOS PARA DONACIÓN</h2>
+                                    <p class="mb-2" style="font-size: 1.1rem;"><strong>Banco:</strong> BancoEstado</p>
+                                    <p class="mb-2" style="font-size: 1.1rem;"><strong>Tipo de Cuenta:</strong> Chequera Electrónica</p>
+                                    <p class="mb-2" style="font-size: 1.1rem;"><strong>Número:</strong> 123456789</p>
+                                    <p class="mb-2" style="font-size: 1.1rem;"><strong>RUT:</strong> 71.123.456-K</p>
+                                    <p class="mb-4" style="font-size: 1.1rem;"><strong>Correo:</strong> contacto@organizacion.cl</p>
+                                    <button class="btn btn-success w-100 fw-bold rounded-3 shadow-sm py-3 fs-5">
+                                        Copiar datos de transferencia <i class="fa-solid fa-copy ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div> <!-- FIN COLUMNA DERECHA -->
+
+                <!-- 4. UBICACIÓN (Abajo, ancho completo: 12 columnas) -->
+                <div class="col-12">
+                    <div class="card custom-border shadow-sm" id="seccion-ubicacion">
+                        <div class="card-body p-4">
+                            <h2 class="h5 fw-bold custom-text-blue mb-4 text-center"><i class="fa-solid fa-map-pin text-danger me-2"></i>Ubicación y Contacto</h2>
+                            <div class="row align-items-center g-4">
+                                <div class="col-md-6">  
+                                    <div class="map-container position-relative bg-light rounded overflow-hidden border" style="height: 250px;">
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3327.937851291904!2d-70.72844762496185!3d-33.47696879886964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c367ab49d769%3A0xe90776ea7bbee435!2sWagner%201114%2C%209291541%20Maip%C3%BA%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1792526728980!5m2!1ses-419!2scl"
+                                            width="600" 
+                                            height="450" 
+                                            style="border:0;" 
+                                            allowfullscreen="" 
+                                            loading="lazy" 
+                                            referrerpolicy="strict-origin-when-cross-origin">
+                                        </iframe>
+                                    </div>
+                                    <p class="text-center mt-3 fw-bold" style="font-size: 1.1rem;"><i class="fa-solid fa-location-dot me-2"></i>Av. Providencia 1234, Santiago</p>
+                                </div>
+                                <div class="col-md-6 text-center text-md-start">
+                                    <p class="mb-2" style="font-size: 1.2rem;"><strong>Comuna:</strong> Huechuraba</p>
+                                    <p class="mb-4 text-secondary" style="font-size: 1.1rem;">Atendemos de lunes a viernes en nuestra sede comunitaria. ¡Te esperamos para compartir en comunidad!</p>
+                                    <a href="tel:+56912345678" class="btn btn-success fw-bold rounded-3 shadow-sm py-3 px-4 text-decoration-none text-white w-100 fs-5">
+                                        Llamar / Contacto:<br><span class="fw-normal">+56 9 1234 5678</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div> <!-- FIN GRILLA -->
         </main>
 
         <!-- FOOTER ORIGINAL -->
         <footer class="footer-bg p-4 text-center position-relative mt-auto">
-            <p class="mb-1 small">¿Quiénes Somos?</p>
-            <p class="mb-1 small">Ubicación y Contacto</p>
-            <p class="mb-2 small">Donaciones</p>
-            <p class="mb-0 fw-bold custom-text-blue small">@organizacion.discapacidad</p>
+            <p class="mb-1" style="font-size: 1.1rem;">¿Quiénes Somos?</p>
+            <p class="mb-1" style="font-size: 1.1rem;">Ubicación y Contacto</p>
+            <p class="mb-2" style="font-size: 1.1rem;">Donaciones</p>
+            <p class="mb-0 fw-bold custom-text-blue" style="font-size: 1.1rem;">@organizacion.discapacidad</p>
             
             <a href="/login" class="admin-access text-decoration-none text-secondary bg-white rounded border shadow-sm" title="Acceso Voluntarios">
                 <i class="fa-solid fa-rotate fs-4 mb-1" style="color: #3498db;"></i><br>
-                <span style="font-size: 0.5rem; font-weight: bold;">VOLUNTARIOS</span>
+                <span style="font-size: 0.6rem; font-weight: bold;">VOLUNTARIOS</span>
             </a>
         </footer>
 
     </div>
 
-    <!-- Menú Lateral Original (Offcanvas) -->
+    <!-- Menú Lateral -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="menuLateral" style="max-width: 300px;">
         <div class="offcanvas-header border-bottom">
             <h5 class="offcanvas-title fw-bold custom-text-blue">Navegación</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">
             <div class="list-group list-group-flush fs-5">
-                <a href="#seccion-feed" class="list-group-item list-group-item-action border-0 py-3 enlace-menu">
-                    <i class="fa-solid fa-newspaper text-primary me-3"></i>Novedades
-                </a>
-                <a href="#seccion-recibimos" class="list-group-item list-group-item-action border-0 py-3 enlace-menu">
-                    <i class="fa-solid fa-hand-holding-heart text-danger me-3"></i>¿Qué recibimos?
-                </a>
-                <a href="#seccion-donacion" class="list-group-item list-group-item-action border-0 py-3 enlace-menu">
-                    <i class="fa-solid fa-hand-holding-dollar text-success me-3"></i>Donaciones
-                </a>
-                <a href="#seccion-ubicacion" class="list-group-item list-group-item-action border-0 py-3 enlace-menu">
-                    <i class="fa-solid fa-location-dot text-danger me-3"></i>Ubicación y Contacto
-                </a>
+                <a href="#seccion-feed" class="list-group-item list-group-item-action border-0 py-3"><i class="fa-solid fa-newspaper text-primary me-3"></i>Novedades</a>
+                <a href="#seccion-quienes-somos" class="list-group-item list-group-item-action border-0 py-3"><i class="fa-solid fa-users text-info me-3"></i>Quiénes Somos</a>
+                <a href="#seccion-recibimos" class="list-group-item list-group-item-action border-0 py-3"><i class="fa-solid fa-hand-holding-heart text-danger me-3"></i>¿Qué recibimos?</a>
+                <a href="#seccion-donacion" class="list-group-item list-group-item-action border-0 py-3"><i class="fa-solid fa-hand-holding-dollar text-success me-3"></i>Donaciones</a>
+                <a href="#seccion-ubicacion" class="list-group-item list-group-item-action border-0 py-3"><i class="fa-solid fa-location-dot text-danger me-3"></i>Ubicación y Contacto</a>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT OBLIGATORIO DE BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
-
 </body>
 </html>
