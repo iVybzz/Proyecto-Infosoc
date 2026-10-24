@@ -32,14 +32,71 @@
             <!-- INICIO DE LA NUEVA GRILLA -->
             <div class="row g-4">
                 
-                <!-- 1. NOTICIAS (Arriba, ancho completo: 12 columnas) -->
+                <!-- 1. NOTICIAS TIPO CARRUSEL (Ancho completo: 12 columnas) -->
                 <div class="col-12">
-                    <div class="feed-card rounded-4 position-relative overflow-hidden shadow-sm" id="seccion-feed">
-                        <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=1200&auto=format&fit=crop" alt="Actividades" class="w-100 object-fit-cover" style="height: 300px;">
-                        <div class="feed-overlay position-absolute bottom-0 w-100 p-3 text-white">
-                            <h2 class="h5 fw-bold mb-0">¡Nuestras actividades y reuniones!</h2>
-                            <i class="fa-brands fa-facebook fs-4 position-absolute bottom-0 end-0 m-3"></i>
+                    <div id="carruselNovedades" class="carousel slide rounded-4 overflow-hidden shadow-sm" data-bs-ride="carousel" id="seccion-feed">
+                        
+                        <!-- Indicadores (Las rayitas de abajo) -->
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carruselNovedades" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carruselNovedades" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carruselNovedades" data-bs-slide-to="2" aria-label="Slide 3"></button>
                         </div>
+                    
+                        <!-- Diapositivas -->
+                        <div class="carousel-inner">
+                            
+                            <!-- Noticia 1 (Activa) -->
+                            <div class="carousel-item active" data-bs-interval="5000">
+                                <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=1200&auto=format&fit=crop" class="d-block w-100 object-fit-cover" alt="Actividad 1" style="height: 300px;">
+                                <!-- Sombreado oscuro para que el texto resalte -->
+                                <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+                                <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 pb-0">
+                                    <h2 class="h3 fw-bold text-white mb-3">¡Gran Bingo Solidario de Invierno!</h2>
+                                    <p class="text-white fs-5 mb-4">Acompáñanos este sábado a reunir fondos para la comunidad.</p>
+                                    <a href="https://www.facebook.com/organizacion.discapacidad?rdid=mk75b3qqNkfkvwc8&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1D8CuTsGuw%2F" target="_blank" class="btn btn-primary fw-bold px-4 py-2 rounded-pill shadow">
+                                        <i class="fa-brands fa-facebook fs-5 me-2"></i>Ver detalles en Facebook
+                                    </a>
+                                </div>
+                            </div>
+                    
+                            <!-- Noticia 2 -->
+                            <div class="carousel-item" data-bs-interval="5000">
+                                <img src="https://images.unsplash.com/photo-1593113630400-ea4288922497?q=80&w=1200&auto=format&fit=crop" class="d-block w-100 object-fit-cover" alt="Actividad 2" style="height: 300px;">
+                                <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+                                <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 pb-0">
+                                    <h2 class="h3 fw-bold text-white mb-3">Taller de Inclusión Escolar</h2>
+                                    <p class="text-white fs-5 mb-4">Revisa las fotos de nuestra última charla con docentes.</p>
+                                    <a href="https://www.facebook.com/organizacion.discapacidad?rdid=mk75b3qqNkfkvwc8&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1D8CuTsGuw%2F" target="_blank" class="btn btn-primary fw-bold px-4 py-2 rounded-pill shadow">
+                                        <i class="fa-brands fa-facebook fs-5 me-2"></i>Ver galería en Facebook
+                                    </a>
+                                </div>
+                            </div>
+                    
+                            <!-- Noticia 3 -->
+                            <div class="carousel-item" data-bs-interval="5000">
+                                <img src="https://images.unsplash.com/photo-1518398046578-8cca57782e17?q=80&w=1200&auto=format&fit=crop" class="d-block w-100 object-fit-cover" alt="Actividad 3" style="height: 300px;">
+                                <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+                                <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 pb-0">
+                                    <h2 class="h3 fw-bold text-white mb-3">Campaña de Recolección de Sillas</h2>
+                                    <p class="text-white fs-5 mb-4">Logramos la meta mensual gracias a tu ayuda.</p>
+                                    <a href="https://www.facebook.com/organizacion.discapacidad?rdid=mk75b3qqNkfkvwc8&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1D8CuTsGuw%2F" target="_blank" class="btn btn-primary fw-bold px-4 py-2 rounded-pill shadow">
+                                        <i class="fa-brands fa-facebook fs-5 me-2"></i>Compartir en Facebook
+                                    </a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    
+                        <!-- Controles de Anterior / Siguiente -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carruselNovedades" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carruselNovedades" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Siguiente</span>
+                        </button>
                     </div>
                 </div>
 
@@ -126,19 +183,18 @@
                             <div class="row align-items-center g-4">
                                 <div class="col-md-6">  
                                     <div class="map-container position-relative bg-light rounded overflow-hidden border" style="height: 250px;">
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3327.937851291904!2d-70.72844762496185!3d-33.47696879886964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c367ab49d769%3A0xe90776ea7bbee435!2sWagner%201114%2C%209291541%20Maip%C3%BA%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1792526728980!5m2!1ses-419!2scl"
-                                            width="600" 
-                                            height="450" 
-                                            style="border:0;" 
-                                            allowfullscreen="" 
-                                            loading="lazy" 
-                                            referrerpolicy="strict-origin-when-cross-origin">
-                                        </iframe>
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3332.5781821944092!2d-70.68681149999999!3d-33.3559683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c71a217938c3%3A0xad1705b8289e596e!2sLos%20Chercanes%202065%2C%20Huechuraba%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1792864558553!5m2!1ses-419!2scl" 
+                                        width="600" 
+                                        height="450" 
+                                        style="border:0;" 
+                                        allowfullscreen="" 
+                                        loading="lazy" 
+                                        referrerpolicy="strict-origin-when-cross-origin">
+                                    </iframe>
                                     </div>
-                                    <p class="text-center mt-3 fw-bold" style="font-size: 1.1rem;"><i class="fa-solid fa-location-dot me-2"></i>Av. Providencia 1234, Santiago</p>
+                                    <p class="text-center mt-3 fw-bold" style="font-size: 1.1rem;"><i class="fa-solid fa-location-dot me-2"></i>Los Chercanes 2065, Huechuraba</p>
                                 </div>
                                 <div class="col-md-6 text-center text-md-start">
-                                    <p class="mb-2" style="font-size: 1.2rem;"><strong>Comuna:</strong> Huechuraba</p>
                                     <p class="mb-4 text-secondary" style="font-size: 1.1rem;">Atendemos de lunes a viernes en nuestra sede comunitaria. ¡Te esperamos para compartir en comunidad!</p>
                                     <a href="tel:+56912345678" class="btn btn-success fw-bold rounded-3 shadow-sm py-3 px-4 text-decoration-none text-white w-100 fs-5">
                                         Llamar / Contacto:<br><span class="fw-normal">+56 9 1234 5678</span>
@@ -159,7 +215,7 @@
             <p class="mb-2" style="font-size: 1.1rem;">Donaciones</p>
             <p class="mb-0 fw-bold custom-text-blue" style="font-size: 1.1rem;">@organizacion.discapacidad</p>
             
-            <a href="/login" class="admin-access text-decoration-none text-secondary bg-white rounded border shadow-sm" title="Acceso Voluntarios">
+            <a href="login.html" class="admin-access text-decoration-none text-secondary bg-white rounded border shadow-sm" title="Acceso Voluntarios">
                 <i class="fa-solid fa-rotate fs-4 mb-1" style="color: #3498db;"></i><br>
                 <span style="font-size: 0.6rem; font-weight: bold;">VOLUNTARIOS</span>
             </a>
