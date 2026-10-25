@@ -51,7 +51,7 @@ CREATE TABLE transaccion (
 );
 
 -- (#18) Cargar categorías iniciales
-INSERT INTO categoria_activo (nombre_cateegoria, es:retornable) VALUES
+INSERT INTO categoria_activo (nombre_categoria, es_retornable) VALUES
 ('Equipos Médicos', TRUE),
 ('Insumos Desechables', FALSE);
 
