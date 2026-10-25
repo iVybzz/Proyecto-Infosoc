@@ -57,4 +57,4 @@ INSERT INTO categoria_activo (nombre_cateegoria, es:retornable) VALUES
 
 -- (#19) Crear usuario admninistrador inicial
 INSERT INTO personal (rut, nombre_completo, contrasena) VALUES
-('12345678-9', 'Administrador', 'admin123');
+('12345678-9', 'Administrador', '$2y$10$wB5E3.g9k.V2fN7QO1r/U.d/hU0ZqKxL9H3/3p/O4hG/P8P6KqY.e');
