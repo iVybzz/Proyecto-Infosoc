@@ -1,7 +1,7 @@
 <?php
 return [
-    'db_host' => 'sqlX.infinityfree.com',
-    'db_name' => 'if0_X_bdd',
-    'db_user' => 'if0_X',
-    'db_pass' => 'X',
-]
+    'db_host' => 'sql200.infinityfree.com',
+    'db_name' => 'PEDIR_A_ZALDI',
+    'db_user' => 'if0_43211338',
+    'db_pass' => 'PEDIR_A_ZALDI',
+];
