@@ -49,3 +49,12 @@ CREATE TABLE transaccion (
     FOREIGN KEY (id_beneficiario) REFERENCES beneficiario(id_beneficiario),
     FOREIGN KEY (id_usuario) REFERENCES personal(id_usuario)
 );
+
+-- (#18) Cargar categorías iniciales
+INSERT INTO categoria_activo (nombre_cateegoria, es:retornable) VALUES
+('Equipos Médicos', TRUE),
+('Insumos Desechables', FALSE);
+
+-- (#19) Crear usuario admninistrador inicial
+INSERT INTO personal (rut, nombre_completo, contrasena) VALUES
+('12345678-9', 'Administrador', 'admin123');
