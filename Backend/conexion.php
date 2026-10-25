@@ -8,10 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit();
 }
 
-$host = "sql200.infinityfree.com";
-$dbname = "if0_43211338_infosoc"; 
-$username = "if0_43211338";         
-$password = "Infosoc10";         
+$config = require __DIR__ . '/config.php';
+$host = $config['db_host'];
+$dbname = $config['db_name'];
+$username = $config['db_user'];
+$password = $config['db_pass'];
 
 try {
     //dsn
@@ -27,7 +28,12 @@ try {
     
 } catch (PDOException $e) {
     // por si falla
-    echo json_encode(["error" => "Error crítico de conexión: " . $e->getMessage()]);
+    error_log('[' . date('Y-m-d H:i:s') . '] Error BD: ' . $e->getMessage() . PHP_EOL, 3, __DIR__ . '/logs/error.log');
+
+    //mensaje para el usuario
+    http_response_code(500);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'Error de conexión a la base de datos.']);
     exit();
 }
 ?>
