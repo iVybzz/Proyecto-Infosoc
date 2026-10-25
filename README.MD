@@ -5,7 +5,7 @@
 - `Backend/`: API en PHP, alojada en InfinityFree
 
 ## Configuración Local del Backend
-1. Copia `Backend/config.example.php` y renómbralo a `Backend/config.php`.
+1. Copia `Backend/CONFIG/config.example.php` y renómbralo a `Backend/CONFIG/config.php`.
 2. Completa los datos de la base de datos (host, nombre, usuario y contraseña).
 3. Pide las credenciales reales al zaldi **por dm**. Nunca las subas a GitHub.
 
