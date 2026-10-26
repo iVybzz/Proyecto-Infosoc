@@ -24,7 +24,7 @@ try {
         PDO::ATTR_EMULATE_PREPARES   => false,             
     ];
 
-    $conexion = new PDO($dsn, $username, $password, $opciones);
+    $pdo = new PDO($dsn, $username, $password, $opciones);
     
 } catch (PDOException $e) {
     // por si falla
