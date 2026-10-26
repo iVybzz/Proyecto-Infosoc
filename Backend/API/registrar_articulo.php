@@ -11,7 +11,7 @@ try{
     $data = json_decode(file_get_contents("php://input"));
 
     // Validar que los campos criticos no estén vacios
-    if (!empty($data->nombre) && isset($data->cantidad) && empty($data->id_categoria)){
+    if (!empty($data->nombre) && isset($data->cantidad) && !empty($data->id_categoria)){
 
         // Preparar la consulta SQL (evitando inyecciones SQL)
         $sql = "INSERT INTO activo (nombre, estado_fisico, disponibilidad, cantidad, id_categoria) 
