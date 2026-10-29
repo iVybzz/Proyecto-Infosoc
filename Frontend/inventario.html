@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Inventario de Activos - Organización</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="inventario.css">
+</head>
+<body>
+
+    <!--
+        IMPORTANTE PARA EL EQUIPO DE BACKEND:
+        Esta página es solo para funcionarios. Cuando el login funcione, el servidor debe
+        verificar la sesión ANTES de entregar este archivo (por ejemplo, respondiendo con
+        una redirección a login.html si no hay sesión). Ocultar la página con JavaScript
+        no protege los datos.
+        La conexión con la base de datos se hace en inventario.js, dentro del objeto "api".
+    -->
+
+    <div class="inv-app">
+
+        <!-- ================= BARRA LATERAL (solo escritorio) ================= -->
+        <aside class="inv-sidebar d-none d-lg-flex flex-column gap-4" aria-label="Menú del sistema">
+            <div class="inv-logo">
+                <i class="fa-solid fa-handshake" aria-hidden="true"></i>
+                <div class="titulo-org mt-2 fw-bold custom-text-blue" style="font-size: .8rem; line-height: 1.2;">
+                    Organización de Padres y Amigos de Personas con Discapacidad
+                </div>
+            </div>
+            <nav class="inv-nav d-flex flex-column gap-1">
+                <a href="inventario.html" class="activo" aria-current="page"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i>Inventario</a>
+                <a href="index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i>Volver al sitio</a>
+            </nav>
+        </aside>
+
+        <!-- ================= ZONA PRINCIPAL ================= -->
+        <div class="inv-main">
+
+            <!-- Barra superior -->
+            <header class="inv-topbar d-flex align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-2 d-lg-none">
+                    <i class="fa-solid fa-handshake fs-2" style="color: #2e86c1;" aria-hidden="true"></i>
+                    <span class="titulo-org">Organización de Padres<br>y Amigos de Personas<br>con Discapacidad</span>
+                </div>
+                <div class="d-none d-lg-block fw-bold custom-text-blue">Panel de funcionarios</div>
+                <a href="index.html" class="btn btn-outline-primary btn-sm d-lg-none" aria-label="Volver al sitio">
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                </a>
+            </header>
+
+            <main class="inv-contenido p-3 p-lg-4">
+
+                <div class="banner-demo mb-3" role="note">
+                    <i class="fa-solid fa-flask me-2" aria-hidden="true"></i>
+                    <strong>Modo demostración:</strong> estos datos son de ejemplo y los cambios no se guardan. Se conectarán a la base de datos cuando el backend esté listo.
+                </div>
+
+                <!-- Título y botón de registro (escritorio) -->
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <h1 class="h3 fw-bold custom-text-blue mb-0">Inventario de Activos</h1>
+                    <button type="button" class="btn btn-primary btn-registrar d-none d-lg-inline-flex align-items-center gap-2"
+                            data-bs-toggle="modal" data-bs-target="#modalRegistrar">
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>Registrar nuevo activo
+                    </button>
+                </div>
+
+                <!-- Búsqueda -->
+                <div class="mb-3" style="max-width: 560px;">
+                    <label for="buscador" class="visually-hidden">Buscar activos</label>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
+                        <input type="search" id="buscador" class="form-control" placeholder="Buscar por nombre o ID" autocomplete="off">
+                    </div>
+                </div>
+
+                <!-- Filtros por categoría: mosaicos en móvil -->
+                <div class="row g-2 mb-3 d-lg-none" id="filtrosMovil" role="group" aria-label="Filtrar por categoría"></div>
+
+                <!-- Filtros por categoría: botones en escritorio -->
+                <div class="d-none d-lg-flex gap-3 mb-3 flex-wrap" id="filtrosEscritorio" role="group" aria-label="Filtrar por categoría"></div>
+
+                <p class="text-secondary small mb-2" id="resumen" role="status" aria-live="polite"></p>
+
+                <!-- Lista de tarjetas (móvil) -->
+                <h2 class="h5 fw-bold custom-text-blue d-lg-none">Lista de activos</h2>
+                <div class="lista-activos d-lg-none" id="listaMovil"></div>
+
+                <!-- Tabla (escritorio) -->
+                <div class="tabla-wrap d-none d-lg-block">
+                    <table class="table table-hover tabla-inv">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Imagen</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Disponibilidad</th>
+                                <th scope="col">Detalles del préstamo</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaCuerpo"></tbody>
+                    </table>
+                </div>
+
+                <!-- Botón de registro (móvil) -->
+                <button type="button" class="btn btn-outline-primary btn-registrar btn-lg w-100 mt-3 d-lg-none"
+                        data-bs-toggle="modal" data-bs-target="#modalRegistrar">
+                    <i class="fa-solid fa-plus me-2" aria-hidden="true"></i>Registrar nuevo activo
+                </button>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: REGISTRAR NUEVO ACTIVO ================= -->
+    <div class="modal fade" id="modalRegistrar" tabindex="-1" aria-labelledby="tituloRegistrar" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <form class="modal-content" id="formRegistrar" novalidate>
+                <div class="modal-header">
+                    <h2 class="modal-title h5 fw-bold custom-text-blue" id="tituloRegistrar">Registrar nuevo activo</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="regNombre" class="form-label fw-bold">Nombre *</label>
+                        <input type="text" class="form-control form-control-lg" id="regNombre" maxlength="80" required>
+                        <div class="invalid-feedback">Escribe el nombre del activo.</div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-sm-6">
+                            <label for="regCategoria" class="form-label fw-bold">Categoría *</label>
+                            <select class="form-select form-select-lg" id="regCategoria" required></select>
+                            <div class="invalid-feedback">Elige una categoría.</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="regEstado" class="form-label fw-bold">Estado *</label>
+                            <select class="form-select form-select-lg" id="regEstado" required></select>
+                            <div class="invalid-feedback">Elige el estado.</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regCantidad" class="form-label fw-bold">Cantidad de unidades *</label>
+                        <input type="number" class="form-control form-control-lg" id="regCantidad" min="1" max="100000" step="1" value="1" required>
+                        <div class="form-text">
+                            Se crea <strong>un solo registro</strong> con esta cantidad (por ejemplo, 30 pañales = 1 fila con cantidad 30).
+                            Si ya existe un activo con el mismo nombre, categoría y estado, las unidades se suman a ese registro.
+                        </div>
+                        <div class="invalid-feedback">Escribe un número entero entre 1 y 100.000.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regDescripcion" class="form-label fw-bold">Descripción <span class="fw-normal text-secondary">(opcional)</span></label>
+                        <textarea class="form-control" id="regDescripcion" rows="2" maxlength="300"></textarea>
+                    </div>
+                    <div class="mb-1">
+                        <label for="regImagen" class="form-label fw-bold">Imagen <span class="fw-normal text-secondary">(opcional)</span></label>
+                        <input type="file" class="form-control" id="regImagen" accept="image/*">
+                        <div class="form-text">Máximo 2 MB.</div>
+                        <div class="text-danger small d-none" id="errorImagen">La imagen pesa más de 2 MB. Elige otra.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary fw-bold">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: PRESTAR ================= -->
+    <div class="modal fade" id="modalPrestar" tabindex="-1" aria-labelledby="tituloPrestar" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content" id="formPrestar" novalidate>
+                <div class="modal-header">
+                    <h2 class="modal-title h5 fw-bold custom-text-blue" id="tituloPrestar">Prestar activo</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3" id="prestarResumen"></p>
+                    <div class="mb-3">
+                        <label for="prestCantidad" class="form-label fw-bold">Cantidad a prestar *</label>
+                        <input type="number" class="form-control form-control-lg" id="prestCantidad" min="1" step="1" value="1" required>
+                        <div class="invalid-feedback" id="prestCantidadError">Escribe una cantidad válida.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prestNombre" class="form-label fw-bold">Nombre de quien recibe *</label>
+                        <input type="text" class="form-control form-control-lg" id="prestNombre" maxlength="80" autocomplete="off" required>
+                        <div class="invalid-feedback">Escribe el nombre de la persona.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prestTelefono" class="form-label fw-bold">Teléfono <span class="fw-normal text-secondary">(opcional)</span></label>
+                        <input type="tel" class="form-control form-control-lg" id="prestTelefono" maxlength="20" autocomplete="off"
+                               pattern="^\+?[0-9\s()\-]{8,16}$">
+                        <div class="invalid-feedback">Escribe un teléfono válido.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prestDevolucion" class="form-label fw-bold">Fecha estimada de devolución *</label>
+                        <input type="date" class="form-control form-control-lg" id="prestDevolucion" required>
+                        <div class="invalid-feedback">Elige una fecha desde hoy en adelante.</div>
+                    </div>
+                    <div class="mb-1">
+                        <label for="prestNota" class="form-label fw-bold">Nota <span class="fw-normal text-secondary">(opcional)</span></label>
+                        <textarea class="form-control" id="prestNota" rows="2" maxlength="200"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary fw-bold">Confirmar préstamo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: REGISTRAR DEVOLUCIÓN ================= -->
+    <div class="modal fade" id="modalDevolver" tabindex="-1" aria-labelledby="tituloDevolver" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title h5 fw-bold custom-text-blue" id="tituloDevolver">Registrar devolución</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3" id="devolverResumen"></p>
+                    <p class="small text-secondary">Elige el préstamo que se devolvió:</p>
+                    <div id="devolverLista"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: INFORMACIÓN ================= -->
+    <div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="tituloInfo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title h5 fw-bold custom-text-blue" id="tituloInfo">Información del activo</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="infoCuerpo"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avisos -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+        <div id="aviso" class="toast align-items-center border-0" role="status" aria-live="polite" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="avisoTexto"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar aviso"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="inventario.js"></script>
+</body>
+</html>

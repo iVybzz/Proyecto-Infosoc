@@ -1,0 +1,216 @@
+/* =====================================================================
+   INVENTARIO DE ACTIVOS - estilos
+   Se usa junto con style.css (colores institucionales) y Bootstrap 5.
+   Móvil: una columna, tarjetas.  Escritorio (>= 992px): barra lateral + tabla.
+   ===================================================================== */
+
+:root {
+    --inv-azul-oscuro: #0f3d61;
+    --inv-azul: #2980b9;
+    --inv-fondo: #f3f7fb;
+}
+
+body { background: var(--inv-fondo); }
+
+.inv-app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ---------- Barra lateral (solo escritorio) ---------- */
+.inv-sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: #fff;
+    border-right: 2px solid var(--inv-azul-oscuro);
+    padding: 1.25rem 1rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.inv-logo {
+    border: 2px solid var(--inv-azul-oscuro);
+    border-radius: 12px;
+    padding: 1rem .75rem;
+    text-align: center;
+    background: #eef5fa;
+}
+
+.inv-logo i { font-size: 2.5rem; color: #2e86c1; }
+
+.inv-nav a {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .7rem .8rem;
+    border-radius: 8px;
+    color: var(--inv-azul-oscuro);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.inv-nav a:hover { background: #e3eef7; }
+.inv-nav a.activo { background: var(--inv-azul-oscuro); color: #fff; }
+
+/* ---------- Zona principal ---------- */
+.inv-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.inv-topbar {
+    background: #fff;
+    border-bottom: 2px solid var(--inv-azul-oscuro);
+    padding: .75rem 1rem;
+}
+
+.inv-topbar .titulo-org {
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--inv-azul-oscuro);
+    line-height: 1.2;
+}
+
+/* ---------- Filtros por categoría ---------- */
+.filtro-tile {
+    border: 2px solid var(--inv-azul-oscuro);
+    background: #fff;
+    color: var(--inv-azul-oscuro);
+    border-radius: 10px;
+    padding: .55rem .25rem;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+    line-height: 1.2;
+}
+
+.filtro-tile .cantidad { display: block; font-size: 1.35rem; }
+.filtro-tile .nombre { display: block; font-size: .85rem; }
+
+.filtro-pill {
+    border: 2px solid var(--inv-azul-oscuro);
+    background: #fff;
+    color: var(--inv-azul-oscuro);
+    border-radius: 999px;
+    padding: .45rem 1.6rem;
+    font-weight: 700;
+}
+
+.filtro-tile:hover, .filtro-pill:hover { background: #e3eef7; }
+
+.filtro-tile[aria-pressed="true"],
+.filtro-pill[aria-pressed="true"] {
+    background: var(--inv-azul-oscuro);
+    color: #fff;
+}
+
+.filtro-tile:focus-visible,
+.filtro-pill:focus-visible { outline: 3px solid var(--inv-azul); outline-offset: 2px; }
+
+/* ---------- Imagen del activo ---------- */
+.activo-img {
+    width: 72px;
+    height: 72px;
+    border: 2px solid var(--inv-azul-oscuro);
+    border-radius: 8px;
+    background: #eef5fa;
+    color: #7a93a8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    font-size: 1.6rem;
+}
+
+.activo-img img { width: 100%; height: 100%; object-fit: cover; }
+.activo-img.chica { width: 52px; height: 52px; font-size: 1.2rem; }
+
+/* ---------- Lista de tarjetas (móvil) ---------- */
+.lista-activos {
+    border: 2px solid var(--inv-azul-oscuro);
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.activo-card {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: .75rem;
+    padding: .85rem;
+    align-items: start;
+}
+
+.activo-card + .activo-card { border-top: 2px solid var(--inv-azul-oscuro); }
+
+.activo-card .nombre { font-weight: 700; color: var(--inv-azul-oscuro); word-break: break-word; }
+.activo-card .meta { font-size: .9rem; color: #4a5b6a; }
+.activo-card .acciones { display: flex; flex-direction: column; gap: .5rem; min-width: 92px; }
+.activo-card .acciones .btn { min-height: 40px; font-weight: 600; }
+
+.activo-card .disp {
+    grid-column: 2 / 4;
+    border-radius: 6px;
+    padding: .3rem .6rem;
+    font-size: .85rem;
+    font-weight: 700;
+}
+
+.disp.disponible { background: #e3f6ea; color: #14683a; border: 1.5px solid #1a9c54; }
+.disp.prestado { background: #fff1d6; color: #7a4b00; border: 1.5px solid #e0a100; }
+.disp.parcial { background: #e1f0fb; color: #0f3d61; border: 1.5px solid #2980b9; }
+
+/* ---------- Tabla (escritorio) ---------- */
+.tabla-wrap {
+    border: 2px solid var(--inv-azul-oscuro);
+    border-radius: 12px;
+    background: #fff;
+    overflow-x: auto;
+}
+
+.tabla-inv { margin: 0; vertical-align: middle; }
+.tabla-inv thead th {
+    background: #eef5fa;
+    color: var(--inv-azul-oscuro);
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    white-space: nowrap;
+    border-bottom: 2px solid var(--inv-azul-oscuro);
+}
+
+.tabla-inv td { vertical-align: middle; }
+.tabla-inv .detalle-prestamo { font-size: .88rem; color: #4a5b6a; min-width: 200px; }
+
+/* ---------- Botón principal y detalles ---------- */
+.btn-registrar {
+    border: 2px solid var(--inv-azul);
+    border-radius: 999px;
+    font-weight: 700;
+    padding: .7rem 1.5rem;
+}
+
+.banner-demo {
+    background: #fff8e1;
+    border: 1.5px solid #e0a100;
+    color: #6b4a00;
+    border-radius: 10px;
+    padding: .6rem .9rem;
+    font-size: .9rem;
+}
+
+.estado-vacio {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #4a5b6a;
+}
+
+/* En el celular se deja espacio abajo para no tapar el contenido con la barra del navegador */
+@media (max-width: 991.98px) {
+    main.inv-contenido { padding-bottom: 2rem; }
+}
+
+/* Respeta a quienes prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+}
