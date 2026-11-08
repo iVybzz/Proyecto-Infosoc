@@ -39,7 +39,7 @@ if ($metodo_peticion === 'GET') {
                 t.fecha_devolucion_esperada ASC
         ";
         
-        $sentencia_preparada = $conexion->prepare($consulta_sql_prestamos);
+        $sentencia_preparada = $pdo->prepare($consulta_sql_prestamos);
         
         $sentencia_preparada->execute();
         
