@@ -18,7 +18,7 @@ if ($metodo_peticion === 'DELETE' || $metodo_peticion === 'GET') {
         try {
             $consulta_sql_eliminar = "DELETE FROM Beneficiario WHERE id_beneficiario = :id_bd";
             
-            $sentencia_preparada = $conexion->prepare($consulta_sql_eliminar);
+            $sentencia_preparada = $pdo->prepare($consulta_sql_eliminar);
             
             // vinculamos el parametro de forma explicita
             $sentencia_preparada->bindParam(':id_bd', $id_beneficiario_a_eliminar, PDO::PARAM_INT);
