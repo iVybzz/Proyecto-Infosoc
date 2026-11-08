@@ -73,3 +73,36 @@ document.querySelectorAll('#menuLateral a[href^="#"]').forEach(enlace => {
         mostrar(await copiar(datosParaCopiar()));
     });
 })();
+
+/* ============ CONEXIÓN DEL LOGIN ============ */
+const formLogin = document.getElementById('formularioLogin'); 
+const mensajeError = document.getElementById('mensajeError');
+
+if (formLogin) {
+    formLogin.addEventListener('submit', async function(e) {
+        e.preventDefault(); 
+        
+        mensajeError.classList.add('d-none');
+        const formData = new FormData(formLogin);
+
+        try {
+            const response = await fetch('../Backend/login.php', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+
+            if (data.exito) {
+                // Credenciales correctas: redirige
+                window.location.href = 'inventario.html'; 
+            } else {
+                // Falla: muestra alerta
+                mensajeError.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-2"></i>${data.mensaje}`;
+                mensajeError.classList.remove('d-none');
+            }
+        } catch (error) {
+            mensajeError.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-2"></i>Error de conexión. Verifica XAMPP.`;
+            mensajeError.classList.remove('d-none');
+        }
+    });
+}
