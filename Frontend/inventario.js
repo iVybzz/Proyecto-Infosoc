@@ -123,6 +123,39 @@ const api = {
     }
 };
 
+/* ---------- Utilidades ---------- */
+function esc(valor) {
+    return String(valor ?? '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function normalizar(texto) {
+    return String(texto ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+}
+function aISO(fecha) {
+    const a = fecha.getFullYear();
+    const m = String(fecha.getMonth() + 1).padStart(2, '0');
+    const d = String(fecha.getDate()).padStart(2, '0');
+    return `${a}-${m}-${d}`;
+}
+function hoyISO() { return aISO(new Date()); }
+function enDias(n) {
+    const f = new Date();
+    f.setDate(f.getDate() + n);
+    return aISO(f);
+}
+function fechaCorta(iso) {
+    if (!iso) return '';
+    return new Date(iso + 'T00:00:00').toLocaleDateString('es-CL');
+}
+function unidades(n) { return n === 1 ? '1 unidad' : `${n} unidades`; }
+
+// Funciones para calcular sobre un activo
+function totalPrestado(a) { return a.prestamos.reduce((suma, p) => suma + p.cantidad, 0); }
+function disponibles(a) { return a.cantidad - totalPrestado(a); }
+function prestamoAtrasado(p) { return !!p.devolucion && p.devolucion < hoyISO(); }
+function hayAtrasado(a) { return a.prestamos.some(prestamoAtrasado); }
+
 /* ---------- Estado de la pantalla ---------- */
 let activos = [];
 let filtroCategoria = null;   // null = todas
