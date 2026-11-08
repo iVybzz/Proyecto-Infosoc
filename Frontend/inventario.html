@@ -189,24 +189,36 @@
                         <input type="number" class="form-control form-control-lg" id="prestCantidad" min="1" step="1" value="1" required>
                         <div class="invalid-feedback" id="prestCantidadError">Escribe una cantidad válida.</div>
                     </div>
-                    <div class="mb-3">
-                        <label for="prestNombre" class="form-label fw-bold">Nombre de quien recibe *</label>
-                        <input type="text" class="form-control form-control-lg" id="prestNombre" maxlength="80" autocomplete="off" required>
-                        <div class="invalid-feedback">Escribe el nombre de la persona.</div>
+                    
+                    <!-- NUEVOS CAMPOS PARA LA BD -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-sm-6">
+                            <label for="prestRut" class="form-label fw-bold">RUT Beneficiario *</label>
+                            <input type="text" class="form-control form-control-lg" id="prestRut" placeholder="12345678-9" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="prestNombre" class="form-label fw-bold">Nombre Completo *</label>
+                            <input type="text" class="form-control form-control-lg" id="prestNombre" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="prestTelefono" class="form-label fw-bold">Teléfono <span class="fw-normal text-secondary">(opcional)</span></label>
-                        <input type="tel" class="form-control form-control-lg" id="prestTelefono" maxlength="20" autocomplete="off"
-                               pattern="^\+?[0-9\s()\-]{8,16}$">
-                        <div class="invalid-feedback">Escribe un teléfono válido.</div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-sm-6">
+                            <label for="prestTelefono" class="form-label fw-bold">Teléfono (opcional)</label>
+                            <input type="tel" class="form-control form-control-lg" id="prestTelefono">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="prestDireccion" class="form-label fw-bold">Dirección *</label>
+                            <input type="text" class="form-control form-control-lg" id="prestDireccion" required>
+                        </div>
                     </div>
+                    <!-- FIN NUEVOS CAMPOS -->
+
                     <div class="mb-3">
                         <label for="prestDevolucion" class="form-label fw-bold">Fecha estimada de devolución *</label>
                         <input type="date" class="form-control form-control-lg" id="prestDevolucion" required>
-                        <div class="invalid-feedback">Elige una fecha desde hoy en adelante.</div>
                     </div>
                     <div class="mb-1">
-                        <label for="prestNota" class="form-label fw-bold">Nota <span class="fw-normal text-secondary">(opcional)</span></label>
+                        <label for="prestNota" class="form-label fw-bold">Nota (opcional)</label>
                         <textarea class="form-control" id="prestNota" rows="2" maxlength="200"></textarea>
                     </div>
                 </div>

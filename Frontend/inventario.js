@@ -34,118 +34,92 @@
    Ver INVENTARIO_API.md para las tablas y endpoints sugeridos.
    ===================================================================== */
 
-const CATEGORIAS = ['Implementos', 'Insumos', 'Navidad'];
+const CATEGORIAS = ['Equipos Médicos', 'Insumos Desechables'];
 const ESTADOS = ['Nuevo', 'Bueno', 'Regular', 'Dañado'];
 const ICONOS = {
-    'Implementos': 'fa-wheelchair',
-    'Insumos': 'fa-pump-medical',
-    'Navidad': 'fa-tree'
+    'Equipos Médicos': 'fa-wheelchair',
+    'Insumos Desechables': 'fa-pump-medical'
 };
 
-/* ---------- Utilidades ---------- */
-function esc(valor) {
-    return String(valor ?? '')
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
+// IMPORTANTE: Pídele a tu equipo la URL real de InfinityFree y reemplázala aquí
+const URL_BACKEND = 'https://TU-DOMINIO.infinityfreeapp.com/api'; 
 
-function normalizar(texto) {
-    return String(texto ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
-}
-
-function aISO(fecha) {
-    const a = fecha.getFullYear();
-    const m = String(fecha.getMonth() + 1).padStart(2, '0');
-    const d = String(fecha.getDate()).padStart(2, '0');
-    return `${a}-${m}-${d}`;
-}
-
-function hoyISO() { return aISO(new Date()); }
-
-function enDias(n) {
-    const f = new Date();
-    f.setDate(f.getDate() + n);
-    return aISO(f);
-}
-
-function fechaCorta(iso) {
-    if (!iso) return '';
-    return new Date(iso + 'T00:00:00').toLocaleDateString('es-CL');
-}
-
-function unidades(n) { return n === 1 ? '1 unidad' : `${n} unidades`; }
-
-/* ---------- Cálculos sobre un activo ---------- */
-function totalPrestado(a) { return a.prestamos.reduce((suma, p) => suma + p.cantidad, 0); }
-function disponibles(a) { return a.cantidad - totalPrestado(a); }
-function prestamoAtrasado(p) { return !!p.devolucion && p.devolucion < hoyISO(); }
-function hayAtrasado(a) { return a.prestamos.some(prestamoAtrasado); }
-
-/* ---------- DATOS DE EJEMPLO (se eliminan al conectar el backend) ---------- */
-let BASE_EJEMPLO = [
-    { id: 'ACT-0001', nombre: 'Silla de ruedas plegable', categoria: 'Implementos', estado: 'Bueno', descripcion: 'Con frenos y reposapiés.', imagen: null, cantidad: 3,
-      prestamos: [{ id: 'PRE-0001', prestatario: 'María González', telefono: '+56 9 1111 2222', cantidad: 1, desde: enDias(-5), devolucion: enDias(9), nota: '' }] },
-    { id: 'ACT-0002', nombre: 'Bastón canadiense', categoria: 'Implementos', estado: 'Nuevo', descripcion: '', imagen: null, cantidad: 1,
-      prestamos: [{ id: 'PRE-0002', prestatario: 'Luis Rojas', telefono: '', cantidad: 1, desde: enDias(-2), devolucion: enDias(12), nota: '' }] },
-    { id: 'ACT-0003', nombre: 'Cama clínica manual', categoria: 'Implementos', estado: 'Regular', descripcion: 'Una manivela con desgaste.', imagen: null, cantidad: 1, prestamos: [] },
-    { id: 'ACT-0004', nombre: 'Pañales adulto talla G (paquete)', categoria: 'Insumos', estado: 'Nuevo', descripcion: '', imagen: null, cantidad: 30, prestamos: [] },
-    { id: 'ACT-0005', nombre: 'Guantes de examen (caja)', categoria: 'Insumos', estado: 'Nuevo', descripcion: '', imagen: null, cantidad: 12, prestamos: [] },
-    { id: 'ACT-0006', nombre: 'Árbol de Navidad 1,5 m', categoria: 'Navidad', estado: 'Bueno', descripcion: 'Incluye base y luces.', imagen: null, cantidad: 2,
-      prestamos: [{ id: 'PRE-0003', prestatario: 'Pedro Soto', telefono: '', cantidad: 1, desde: enDias(-20), devolucion: enDias(-3), nota: 'Para actividad del colegio.' }] }
-];
-
-/* ---------- CAPA DE ACCESO A DATOS: AQUÍ SE CONECTA EL BACKEND ---------- */
 const api = {
-    // TODO BACKEND: GET /api/activos  -> [Activo, ...] (con sus préstamos activos)
     async listarActivos() {
-        return BASE_EJEMPLO.map(a => ({ ...a, prestamos: a.prestamos.map(p => ({ ...p })) }));
+        const resActivos = await fetch(`${URL_BACKEND}/listar_articulos.php`);
+        const dbActivos = await resActivos.json();
+        
+        const resPrestamos = await fetch(`${URL_BACKEND}/listar_prestamos_pendientes.php`);
+        const dbPrestamos = await resPrestamos.json();
+
+        const mapCategorias = { 1: 'Equipos Médicos', 2: 'Insumos Desechables' };
+
+        return dbActivos.map(a => {
+            const prestamosActivo = (dbPrestamos.datos || []).filter(p => p.id_activo == a.id_activo).map(p => ({
+                id: p.id_transaccion,
+                prestatario: p.nombre_beneficiario,
+                telefono: p.telefono_beneficiario || '',
+                cantidad: p.cantidad_entregada,
+                desde: p.fecha_salida,
+                devolucion: p.fecha_esperada_devolucion,
+                nota: p.observaciones || ''
+            }));
+
+            return {
+                id: `ACT-${a.id_activo}`,
+                id_real: a.id_activo,
+                nombre: a.nombre,
+                categoria: mapCategorias[a.id_categoria] || 'Otros',
+                estado: a.estado_fisico,
+                descripcion: '', 
+                imagen: null,
+                cantidad: a.cantidad,
+                prestamos: prestamosActivo
+            };
+        });
     },
 
-    // TODO BACKEND: POST /api/activos  con { nombre, categoria, estado, descripcion, cantidad } (+ imagen)
-    // Regla: si ya existe un activo con el mismo nombre, categoría y estado, el servidor SUMA la
-    // cantidad a ese activo en vez de crear otro. Debe responder { activo, sumado: true|false }.
-    // "datos.imagen" es un objeto File (o null).
     async registrarActivo(datos, cantidad) {
-        const clave = a => [normalizar(a.nombre), a.categoria, a.estado].join('|');
-        const existente = BASE_EJEMPLO.find(a => clave(a) === clave(datos));
-
-        if (existente) {
-            existente.cantidad += cantidad;
-            if (!existente.imagen && datos.imagen) existente.imagen = URL.createObjectURL(datos.imagen);
-            return { activo: { ...existente }, sumado: true };
-        }
-
-        const mayor = BASE_EJEMPLO.reduce((m, a) => Math.max(m, parseInt(a.id.replace(/\D/g, ''), 10) || 0), 0);
-        const nuevo = {
-            id: 'ACT-' + String(mayor + 1).padStart(4, '0'),
+        const payload = {
             nombre: datos.nombre,
-            categoria: datos.categoria,
-            estado: datos.estado,
-            descripcion: datos.descripcion,
-            imagen: datos.imagen ? URL.createObjectURL(datos.imagen) : null,
-            cantidad,
-            prestamos: []
+            estado_fisico: datos.estado,
+            disponibilidad: 'Disponible',
+            cantidad: cantidad,
+            id_categoria: datos.categoria === 'Equipos Médicos' ? 1 : 2
         };
-        BASE_EJEMPLO.push(nuevo);
-        return { activo: { ...nuevo }, sumado: false };
+        const res = await fetch(`${URL_BACKEND}/registrar_articulo.php`, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Error al registrar');
+        return { activo: payload, sumado: false }; 
     },
 
-    // TODO BACKEND: POST /api/activos/:id/prestamos  con { prestatario, telefono, cantidad, devolucion, nota }
-    // El servidor debe comprobar que "cantidad" no supere las unidades disponibles.
     async prestarActivo(id, prestamo) {
-        const a = BASE_EJEMPLO.find(x => x.id === id);
-        if (!a) throw new Error('Activo no encontrado');
-        if (prestamo.cantidad < 1 || prestamo.cantidad > disponibles(a)) throw new Error('Cantidad no disponible');
-        const mayor = BASE_EJEMPLO.flatMap(x => x.prestamos)
-            .reduce((m, p) => Math.max(m, parseInt(p.id.replace(/\D/g, ''), 10) || 0), 0);
-        a.prestamos.push({ ...prestamo, id: 'PRE-' + String(mayor + 1).padStart(4, '0'), desde: hoyISO() });
+        const payload = {
+            id_activo: id.replace('ACT-', ''),
+            rut_beneficiario: prestamo.rut,
+            nombre_beneficiario: prestamo.prestatario,
+            telefono_beneficiario: prestamo.telefono,
+            direccion_beneficiario: prestamo.direccion,
+            id_usuario: 1, // ID temporal del administrador
+            cantidad_entregada: prestamo.cantidad,
+            fecha_devolucion_esperada: prestamo.devolucion,
+            observaciones: prestamo.nota
+        };
+        const res = await fetch(`${URL_BACKEND}/registrar_prestamo.php`, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Error al prestar');
     },
 
-    // TODO BACKEND: POST /api/prestamos/:id/devolucion  (marca el préstamo como devuelto)
     async devolverPrestamo(prestamoId) {
-        const a = BASE_EJEMPLO.find(x => x.prestamos.some(p => p.id === prestamoId));
-        if (!a) throw new Error('Préstamo no encontrado');
-        a.prestamos = a.prestamos.filter(p => p.id !== prestamoId);
+        const res = await fetch(`${URL_BACKEND}/devolver_prestamo.php`, {
+            method: 'POST',
+            body: JSON.stringify({ id_transaccion: prestamoId })
+        });
+        if (!res.ok) throw new Error('Error al devolver');
     }
 };
 
@@ -420,8 +394,10 @@ formPrestar.addEventListener('submit', async e => {
     boton.disabled = true;
     try {
         await api.prestarActivo(idPendiente, {
+            rut: el('prestRut').value.trim(),
             prestatario: el('prestNombre').value,
             telefono: el('prestTelefono').value.trim(),
+            direccion: el('prestDireccion').value.trim(),
             cantidad,
             devolucion: el('prestDevolucion').value,
             nota: el('prestNota').value.trim()
