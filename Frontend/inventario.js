@@ -42,7 +42,7 @@ const ICONOS = {
 };
 
 // IMPORTANTE: Pídele a tu equipo la URL real de InfinityFree y reemplázala aquí
-const URL_BACKEND = 'https://TU-DOMINIO.infinityfreeapp.com/api'; 
+const URL_BACKEND = 'https://base-ong.kesug.com/api';
 
 const api = {
     async listarActivos() {
