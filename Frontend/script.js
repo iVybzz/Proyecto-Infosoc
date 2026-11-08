@@ -96,7 +96,7 @@ if (formularioLogin) {
         botonSubmit.innerHTML = 'Validando... <i class="fa-solid fa-circle-notch fa-spin ms-2"></i>';
 
         // IMPORTANTE: Aquí pondrás la URL de AlwaysData (o el nuevo hosting) cuando te la entreguen
-        const URL_LOGIN = 'https://infosoc.alwaysdata.net/api';
+        const URL_LOGIN = 'https://infosoc.alwaysdata.net/api/login.php';
 
         try {
             const respuesta = await fetch(URL_LOGIN, {
