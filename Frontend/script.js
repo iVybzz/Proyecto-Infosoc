@@ -73,3 +73,59 @@ document.querySelectorAll('#menuLateral a[href^="#"]').forEach(enlace => {
         mostrar(await copiar(datosParaCopiar()));
     });
 })();
+
+/* ============ LÓGICA DE INICIO DE SESIÓN ============ */
+const formularioLogin = document.getElementById('formularioLogin');
+
+if (formularioLogin) {
+    formularioLogin.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        // Capturar los datos de los inputs
+        const rut = document.getElementById('rutInput').value.trim();
+        const password = document.getElementById('passInput').value;
+        
+        // Elementos de la interfaz
+        const mensajeError = document.getElementById('mensajeError');
+        const botonSubmit = formularioLogin.querySelector('button[type="submit"]');
+
+        // Limpiar errores previos y poner el botón en modo carga
+        mensajeError.classList.add('d-none');
+        botonSubmit.disabled = true;
+        const textoOriginalBoton = botonSubmit.innerHTML;
+        botonSubmit.innerHTML = 'Validando... <i class="fa-solid fa-circle-notch fa-spin ms-2"></i>';
+
+        // IMPORTANTE: Aquí pondrás la URL de AlwaysData (o el nuevo hosting) cuando te la entreguen
+        const URL_LOGIN = 'https://infosoc.alwaysdata.net/api';
+
+        try {
+            const respuesta = await fetch(URL_LOGIN, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ rut: rut, password: password })
+            });
+
+            const datos = await respuesta.json();
+
+            // Si el backend responde con un "ok" (código 200)
+            if (respuesta.ok && datos.status === 'ok') {
+                window.location.href = 'inventario.html'; // Redirigir al inventario
+            } else {
+                // Si la contraseña o el RUT son incorrectos
+                mensajeError.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-2"></i>${datos.message || 'Credenciales incorrectas.'}`;
+                mensajeError.classList.remove('d-none');
+            }
+        } catch (error) {
+            // Si hay error de conexión (servidor caído o CORS)
+            console.error('Error de conexión:', error);
+            mensajeError.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-2"></i>Error al conectar con el servidor.';
+            mensajeError.classList.remove('d-none');
+        } finally {
+            // Restaurar el botón a la normalidad
+            botonSubmit.disabled = false;
+            botonSubmit.innerHTML = textoOriginalBoton;
+        }
+    });
+}
