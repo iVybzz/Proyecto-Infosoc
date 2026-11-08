@@ -181,7 +181,6 @@ function avisar(mensaje, tipo) {
 
 /* ---------- Piezas de pantalla ---------- */
 function htmlImagen(a) {
-    if (a.imagen) return `<img src="${esc(a.imagen)}" alt="">`;
     return `<i class="fa-solid ${ICONOS[a.categoria] || 'fa-image'}" aria-hidden="true"></i>`;
 }
 
@@ -368,30 +367,26 @@ formRegistrar.addEventListener('submit', async e => {
     e.preventDefault();
     el('regNombre').value = el('regNombre').value.trim();
     formRegistrar.classList.add('was-validated');
-
-    const imagen = el('regImagen').files[0] || null;
-    const imagenGrande = !!imagen && imagen.size > 2 * 1024 * 1024;
-    el('errorImagen').classList.toggle('d-none', !imagenGrande);
-
-    if (!formRegistrar.checkValidity() || imagenGrande) return;
-
+    
+    if (!formRegistrar.checkValidity()) return;
+    
     const cantidad = parseInt(el('regCantidad').value, 10);
     const boton = formRegistrar.querySelector('[type="submit"]');
     boton.disabled = true;
-
+    
     try {
         const { activo, sumado } = await api.registrarActivo({
             nombre: el('regNombre').value,
             categoria: el('regCategoria').value,
             estado: el('regEstado').value,
-            descripcion: el('regDescripcion').value.trim(),
-            imagen
+            descripcion: el('regDescripcion').value.trim()
         }, cantidad);
+        
         await recargar();
         modales.registrar.hide();
-        avisar(sumado
-            ? `Se sumaron ${unidades(cantidad)} a «${activo.nombre}». Ahora hay ${activo.cantidad}.`
-            : `Activo registrado: «${activo.nombre}» con ${unidades(cantidad)}.`);
+        avisar(sumado 
+            ? `Se sumaron ${unidades(cantidad)} a "${activo.nombre}". Ahora hay ${activo.cantidad}.` 
+            : `Activo registrado: "${activo.nombre}" con ${unidades(cantidad)}.`);
     } catch (err) {
         avisar('No se pudo registrar. Inténtalo de nuevo.', 'error');
     } finally {
