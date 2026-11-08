@@ -15,13 +15,13 @@ if ($metodo_peticion === 'POST' || $metodo_peticion === 'PUT') {
     if ($id_transaccion != null && $id_transaccion != "") {
         
         try {
-            $conexion->beginTransaction();
+            $pdo->beginTransaction();
 
             // 1. Actualizar la fecha_devolucion_real en la tabla transaccion
             $sql_transaccion = "UPDATE transaccion 
                                 SET fecha_devolucion_real = CURDATE() 
                                 WHERE id_transaccion = :id_transaccion";
-            $stmt_transaccion = $conexion->prepare($sql_transaccion);
+            $stmt_transaccion = $pdo->prepare($sql_transaccion);
             $stmt_transaccion->bindParam(':id_transaccion', $id_transaccion, PDO::PARAM_INT);
             $stmt_transaccion->execute();
 
@@ -29,11 +29,11 @@ if ($metodo_peticion === 'POST' || $metodo_peticion === 'PUT') {
             $sql_activo = "UPDATE activo 
                            SET disponibilidad = 'Disponible' 
                            WHERE id_activo = (SELECT id_activo FROM transaccion WHERE id_transaccion = :id_transaccion LIMIT 1)";
-            $stmt_activo = $conexion->prepare($sql_activo);
+            $stmt_activo = $pdo->prepare($sql_activo);
             $stmt_activo->bindParam(':id_transaccion', $id_transaccion, PDO::PARAM_INT);
             $stmt_activo->execute();
 
-            $conexion->commit();
+            $pdo->commit();
 
             echo json_encode([
                 "estado" => "ok",
@@ -41,7 +41,7 @@ if ($metodo_peticion === 'POST' || $metodo_peticion === 'PUT') {
             ]);
 
         } catch (PDOException $e) {
-            $conexion->rollBack();
+            $pdo->rollBack();
             echo json_encode([
                 "estado" => "error",
                 "mensaje" => "Error al registrar la devolución: " . $e->getMessage()
