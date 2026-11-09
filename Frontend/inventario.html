@@ -56,6 +56,11 @@
 
             <main class="inv-contenido p-3 p-lg-4">
 
+                <div class="banner-demo mb-3" role="note">
+                    <i class="fa-solid fa-flask me-2" aria-hidden="true"></i>
+                    <strong>Modo demostración:</strong> estos datos son de ejemplo y los cambios no se guardan. Se conectarán a la base de datos cuando el backend esté listo.
+                </div>
+
                 <!-- Título y botón de registro (escritorio) -->
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
                     <h1 class="h3 fw-bold custom-text-blue mb-0">Inventario de Activos</h1>
@@ -86,10 +91,10 @@
                 <h2 class="h5 fw-bold custom-text-blue d-lg-none">Lista de activos</h2>
                 <div class="lista-activos d-lg-none" id="listaMovil"></div>
 
-                <!-- Tabla (escritorio) con scroll independiente -->
-                <div class="tabla-wrap d-none d-lg-block shadow-sm border" style="max-height: 60vh; overflow-y: auto; border-radius: 8px;">
-                    <table class="table table-hover tabla-inv align-middle mb-0">
-                        <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
+                <!-- Tabla (escritorio) -->
+                <div class="tabla-wrap d-none d-lg-block">
+                    <table class="table table-hover tabla-inv">
+                        <thead>
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Imagen</th>
