@@ -347,26 +347,12 @@ document.addEventListener('click', e => {
     if (boton.dataset.accion === 'prestar') abrirPrestar(a);
     if (boton.dataset.accion === 'devolver') abrirDevolver(a);
     if (boton.dataset.accion === 'info') abrirInfo(a);
-
-    
 });
 
 el('buscador').addEventListener('input', e => {
     textoBusqueda = e.target.value;
     render();
 });
-
-const btnRefrescar = el('btnRefrescar');
-if (btnRefrescar) {
-    btnRefrescar.addEventListener('click', async () => {
-        const icono = btnRefrescar.querySelector('i');
-        icono.classList.add('fa-spin');
-        
-        await recargar(); // Esta es la función que ya tienes creada para actualizar
-        
-        setTimeout(() => icono.classList.remove('fa-spin'), 500);
-    });
-}
 
 /* ---------- Registrar activo (una fila con su cantidad) ---------- */
 const formRegistrar = el('formRegistrar');
