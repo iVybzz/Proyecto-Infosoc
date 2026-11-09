@@ -56,11 +56,6 @@
 
             <main class="inv-contenido p-3 p-lg-4">
 
-                <div class="banner-demo mb-3" role="note">
-                    <i class="fa-solid fa-flask me-2" aria-hidden="true"></i>
-                    <strong>Modo demostración:</strong> estos datos son de ejemplo y los cambios no se guardan. Se conectarán a la base de datos cuando el backend esté listo.
-                </div>
-
                 <!-- Título y botón de registro (escritorio) -->
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
                     <h1 class="h3 fw-bold custom-text-blue mb-0">Inventario de Activos</h1>
@@ -91,24 +86,39 @@
                 <h2 class="h5 fw-bold custom-text-blue d-lg-none">Lista de activos</h2>
                 <div class="lista-activos d-lg-none" id="listaMovil"></div>
 
-                <!-- Tabla (escritorio) -->
-                <div class="tabla-wrap d-none d-lg-block">
-                    <table class="table table-hover tabla-inv">
-                        <thead>
+                <!-- Agrega este contenedor con el botón de refrescar -->
+                <div class="d-flex justify-content-end mb-3 d-none d-lg-flex">
+                    <button id="btnRefrescar" class="btn btn-outline-primary shadow-sm" title="Actualizar datos">
+                        <i class="fa-solid fa-arrows-rotate me-2"></i> Actualizar
+                    </button>
+                </div>
+                
+                <!-- INICIO DE LA TABLA CON SCROLL INDEPENDIENTE -->
+                <div class="table-responsive shadow-sm border" style="max-height: 60vh; overflow-y: auto; border-radius: 8px;">
+                    
+                    <table class="table table-hover align-middle mb-0">
+                        <!-- El position: sticky mantiene los títulos fijos al hacer scroll -->
+                        <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Imagen</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Categoría</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Disponibilidad</th>
-                                <th scope="col">Detalles del préstamo</th>
-                                <th scope="col">Acciones</th>
+                                <th scope="col">IMAGEN</th>
+                                <th scope="col">NOMBRE</th>
+                                <th scope="col">CATEGORÍA</th>
+                                <th scope="col">ESTADO</th>
+                                <th scope="col">DISPONIBILIDAD</th>
+                                <th scope="col">DETALLES DEL PRÉSTAMO</th>
+                                <th scope="col">ACCIONES</th>
                             </tr>
                         </thead>
-                        <tbody id="tablaCuerpo"></tbody>
+                        
+                        <!-- Verifica que el ID de este tbody sea el mismo que usa tu inventario.js -->
+                        <tbody id="cuerpoTabla">
+                            <!-- Los datos se inyectarán aquí automáticamente mediante JavaScript -->
+                        </tbody>
                     </table>
+
                 </div>
+                <!-- FIN DE LA TABLA CON SCROLL INDEPENDIENTE -->
 
                 <!-- Botón de registro (móvil) -->
                 <button type="button" class="btn btn-outline-primary btn-registrar btn-lg w-100 mt-3 d-lg-none"
