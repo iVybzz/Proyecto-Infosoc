@@ -121,7 +121,7 @@ const api = {
     },
 
     async devolverPrestamo(prestamoId) {
-        const res = await fetch(`${URL_BACKEND}/devolver_prestamo.php`, {
+        const res = await fetch(`${URL_BACKEND}/registrar_devolucion.php`, {
             method: 'POST',
             body: JSON.stringify({ id_transaccion: prestamoId })
         });
