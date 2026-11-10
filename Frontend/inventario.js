@@ -53,27 +53,17 @@ const api = {
         const dbPrestamos = await resPrestamos.json();
 
         const mapCategorias = { 1: 'Equipos Médicos', 2: 'Insumos Desechables' };
-        
-        // CORRECCIÓN FASE 2 (Puntos 2 y 4): Leemos los préstamos correctamente
-        const listaPrestamos = Array.isArray(dbPrestamos) ? dbPrestamos : (dbPrestamos.datos || []);
 
         return dbActivos.map(a => {
-            // Buscamos si el ID del activo coincide con el del préstamo
-            const prestamosActivo = listaPrestamos.filter(p => p.id_activo == a.id_activo || p.id_articulo == a.id_activo).map(p => ({
+            const prestamosActivo = (dbPrestamos.datos || []).filter(p => p.id_activo == a.id_activo).map(p => ({
                 id: p.id_transaccion,
                 prestatario: p.nombre_beneficiario,
                 telefono: p.telefono_beneficiario || '',
-                cantidad: parseInt(p.cantidad_entregada, 10) || 1,
+                cantidad: p.cantidad_entregada,
                 desde: p.fecha_salida,
                 devolucion: p.fecha_esperada_devolucion,
                 nota: p.observaciones || ''
             }));
-
-            // CORRECCIÓN FASE 2 (Punto 3): Arreglamos la matemática de disponibilidad
-            // El Total Real = (Lo que queda disponible en la Base de Datos) + (Lo que ya está prestado)
-            const totalPrestado = prestamosActivo.reduce((suma, p) => suma + p.cantidad, 0);
-            const disponibleBD = parseInt(a.cantidad, 10) || 0;
-            const cantidadTotalReal = disponibleBD + totalPrestado;
 
             return {
                 id: `ACT-${a.id_activo}`,
@@ -81,9 +71,9 @@ const api = {
                 nombre: a.nombre,
                 categoria: mapCategorias[a.id_categoria] || 'Otros',
                 estado: a.estado_fisico,
-                descripcion: a.descripcion || a.observaciones || '', // CORRECCIÓN FASE 2 (Punto 1): Mostrar descripción
+                descripcion: '', 
                 imagen: null,
-                cantidad: cantidadTotalReal, // Usamos la cantidad total corregida
+                cantidad: a.cantidad,
                 prestamos: prestamosActivo
             };
         });
@@ -95,8 +85,7 @@ const api = {
             estado_fisico: datos.estado,
             disponibilidad: 'Disponible',
             cantidad: cantidad,
-            id_categoria: datos.categoria === 'Equipos Médicos' ? 1 : 2,
-            descripcion: datos.descripcion // CORRECCIÓN FASE 2 (Punto 1): Enviar descripción a la BD
+            id_categoria: datos.categoria === 'Equipos Médicos' ? 1 : 2
         };
         const res = await fetch(`${URL_BACKEND}/registrar_articulo.php`, {
             method: 'POST',
