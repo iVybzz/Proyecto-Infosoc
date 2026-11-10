@@ -55,15 +55,21 @@ const api = {
         const mapCategorias = { 1: 'Equipos Médicos', 2: 'Insumos Desechables' };
 
         return dbActivos.map(a => {
-            const prestamosActivo = (dbPrestamos.datos || []).filter(p => p.id_activo == a.id_activo).map(p => ({
+            // CORRECCIÓN FASE 2: Emparejamos por nombre (articulo_prestado) y capturamos 'telefono'
+            const prestamosActivo = (dbPrestamos.datos || []).filter(p => p.articulo_prestado === a.nombre).map(p => ({
                 id: p.id_transaccion,
                 prestatario: p.nombre_beneficiario,
-                telefono: p.telefono_beneficiario || '',
-                cantidad: p.cantidad_entregada,
+                telefono: p.telefono || '',
+                cantidad: parseInt(p.cantidad_entregada, 10),
                 desde: p.fecha_salida,
                 devolucion: p.fecha_esperada_devolucion,
                 nota: p.observaciones || ''
             }));
+
+            // CORRECCIÓN FASE 2: Total Real = (Disponibles en Base de Datos) + (Lo prestado)
+            const totalPrestado = prestamosActivo.reduce((suma, p) => suma + p.cantidad, 0);
+            const disponiblesEnBD = parseInt(a.cantidad, 10);
+            const cantidadTotalReal = disponiblesEnBD + totalPrestado;
 
             return {
                 id: `ACT-${a.id_activo}`,
@@ -71,9 +77,9 @@ const api = {
                 nombre: a.nombre,
                 categoria: mapCategorias[a.id_categoria] || 'Otros',
                 estado: a.estado_fisico,
-                descripcion: '', 
+                descripcion: 'Sin descripción (El backend no soporta descripciones de activos)', 
                 imagen: null,
-                cantidad: a.cantidad,
+                cantidad: cantidadTotalReal, // Usamos la suma matemática corregida
                 prestamos: prestamosActivo
             };
         });
