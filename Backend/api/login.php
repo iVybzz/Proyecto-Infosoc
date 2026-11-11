@@ -20,7 +20,8 @@ if ($metodo_peticion === 'POST') {
             // Verificar que el usuario exista y que la contraseña coincida con el hash
             if ($usuario && password_verify($data->password, $usuario['contrasena'])) {
                 
-                // (Opcional) Aquí más adelante podrían generar un token de sesión (JWT o PHP Sessions)
+                // INICIAMOS LA SESIÓN REAL AQUÍ
+                $_SESSION['id_usuario'] = $usuario['id_usuario']; 
                 
                 echo json_encode([
                     "status" => "ok",

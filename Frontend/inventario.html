@@ -36,6 +36,9 @@
             <nav class="inv-nav d-flex flex-column gap-1">
                 <a href="inventario.html" class="activo" aria-current="page"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i>Inventario</a>
                 <a href="index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i>Volver al sitio</a>
+
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modalAdmin" class="mt-2"><i class="fa-solid fa-user-plus"></i>Nuevo Admin</a>
+                <a href="#" id="btnCerrarSesion" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i>Cerrar sesión</a>
             </nav>
         </aside>
 
@@ -49,9 +52,11 @@
                     <span class="titulo-org">Organización de Padres<br>y Amigos de Personas<br>con Discapacidad</span>
                 </div>
                 <div class="d-none d-lg-block fw-bold custom-text-blue">Panel de funcionarios</div>
-                <a href="index.html" class="btn btn-outline-primary btn-sm d-lg-none" aria-label="Volver al sitio">
-                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-                </a>
+                <div class="d-flex gap-2 d-lg-none">
+                    <a href="index.html" class="btn btn-outline-secondary btn-sm" aria-label="Volver"><i class="fa-solid fa-arrow-left"></i></a>
+                    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAdmin" title="Nuevo Admin"><i class="fa-solid fa-user-plus"></i></button>
+                    <button class="btn btn-outline-danger btn-sm" id="btnCerrarSesionMovil" title="Cerrar sesión"><i class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
             </header>
 
             <main class="inv-contenido p-3 p-lg-4">
@@ -259,6 +264,36 @@
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: NUEVO ADMIN ================= -->
+    <div class="modal fade" id="modalAdmin" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content" id="formAdmin" novalidate>
+                <div class="modal-header">
+                    <h2 class="modal-title h5 fw-bold custom-text-blue">Registrar Nuevo Administrador</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">RUT *</label>
+                        <input type="text" class="form-control form-control-lg" id="adminRut" placeholder="12345678-9" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nombre Completo *</label>
+                        <input type="text" class="form-control form-control-lg" id="adminNombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Contraseña *</label>
+                        <input type="password" class="form-control form-control-lg" id="adminPass" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary fw-bold">Crear Usuario</button>
+                </div>
+            </form>
         </div>
     </div>
 
