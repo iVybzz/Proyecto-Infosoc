@@ -77,7 +77,7 @@ const api = {
                 nombre: a.nombre,
                 categoria: mapCategorias[a.id_categoria] || 'Otros',
                 estado: a.estado_fisico,
-                descripcion: 'Sin descripción (El backend no soporta descripciones de activos)', 
+                descripcion: a.descripcion || '',
                 imagen: null,
                 cantidad: cantidadTotalReal, // Usamos la suma matemática corregida
                 prestamos: prestamosActivo
@@ -91,6 +91,7 @@ const api = {
             estado_fisico: datos.estado,
             disponibilidad: 'Disponible',
             cantidad: cantidad,
+            descripcion: datos.descripcion,
             id_categoria: datos.categoria === 'Equipos Médicos' ? 1 : 2
         };
         const res = await fetch(`${URL_BACKEND}/registrar_articulo.php`, {

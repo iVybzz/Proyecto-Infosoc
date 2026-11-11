@@ -30,6 +30,7 @@ CREATE TABLE activo (
     estado_fisico VARCHAR(30) NOT NULL,
     disponibilidad VARCHAR(30) NOT NULL,
     cantidad INT NOT NULL,
+    descripcion TEXT NULL,
     id_categoria INT NOT NULL,
     FOREIGN KEY (id_categoria) REFERENCES categoria_activo(id_categoria)
 );

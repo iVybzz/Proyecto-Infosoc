@@ -5,7 +5,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // permitir conexion del frontend y definir respuesta como json
-header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 // llamar a la conexion (subiendo un nivel de carpeta)
@@ -21,8 +20,8 @@ try{
     if (!empty($data->nombre) && isset($data->cantidad) && !empty($data->id_categoria)){
 
         // Preparar la consulta SQL (evitando inyecciones SQL)
-        $sql = "INSERT INTO activo (nombre, estado_fisico, disponibilidad, cantidad, id_categoria) 
-        VALUES (:nombre, :estado_fisico, :disponibilidad, :cantidad, :id_categoria)";
+        $sql = "INSERT INTO activo (nombre, estado_fisico, disponibilidad, cantidad, descripcion, id_categoria)
+        VALUES (:nombre, :estado_fisico, :disponibilidad, :cantidad, :descripcion, :id_categoria)";
 
         $stmt = $pdo->prepare($sql);
 
@@ -32,6 +31,7 @@ try{
             ':estado_fisico' => $data->estado_fisico,
             ':disponibilidad' => $data->disponibilidad ?? 'Disponible', // Valor por defecto si no se proporciona
             ':cantidad' => $data->cantidad,
+            ':descripcion' => $data->descripcion ?? null,
             ':id_categoria' => $data->id_categoria
         ]);
 

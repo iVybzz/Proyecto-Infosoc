@@ -17,6 +17,16 @@
 - **Hosting y base de datos:** panel de InfinityFree (cuenta administrada por zaldi).
 - Las credenciales las gestiona el zaldi y se comparten por dm.
 
+## Actualizar una base de datos existente
+El esquema nuevo incluye `activo.descripcion`. En una base que ya estaba creada, ejecutar
+una sola vez desde phpMyAdmin:
+
+```sql
+ALTER TABLE activo ADD COLUMN descripcion TEXT NULL;
+```
+
+La columna permite guardar la descripción opcional que se ingresa al registrar un activo.
+
 ## Probar la conexión a la base de datos
 1. Sube `config.php` al servidor junto a `conexion.php`.
 2. Si la conexión falla, el usuario ve un mensaje genérico y el detalle queda en `Backend/logs/error.log`.
