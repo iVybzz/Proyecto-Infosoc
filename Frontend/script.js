@@ -104,6 +104,7 @@ if (formularioLogin) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify({ rut: rut, password: password })
             });
 

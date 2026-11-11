@@ -44,12 +44,50 @@ const ICONOS = {
 // IMPORTANTE: Pídele a tu equipo la URL real de InfinityFree y reemplázala aquí
 const URL_BACKEND = 'https://infosoc.alwaysdata.net/api';
 
+// NUEVO: Interceptor seguro para todas las peticiones
+const fetchSeguro = async (endpoint, opciones = {}) => {
+    opciones.credentials = 'include'; // Obligatorio para enviar la cookie en cada petición
+    const respuesta = await fetch(`${URL_BACKEND}${endpoint}`, opciones);
+    
+    // Si el servidor responde 401 (No autorizado), pateamos al usuario al login
+    if (respuesta.status === 401) {
+        window.location.href = 'login.html';
+        throw new Error('Sesión inválida o expirada');
+    }
+    return respuesta;
+};
+
 const api = {
+    // Nueva función para comprobar la sesión al entrar
+    async verificarSesion() {
+        await fetchSeguro('/verificar_sesion.php');
+    },
+
+    async cerrarSesion() {
+        await fetchSeguro('/logout.php');
+        window.location.href = 'login.html';
+    },
+    async eliminarActivo(idReal) {
+        const res = await fetchSeguro('/eliminar_articulo.php', {
+            method: 'DELETE',
+            body: JSON.stringify({ id_activo: idReal })
+        });
+        if (!res.ok) throw new Error('Error al eliminar');
+    },
+    async registrarAdmin(datos) {
+        const res = await fetchSeguro('/registrar_personal.php', {
+            method: 'POST',
+            body: JSON.stringify(datos)
+        });
+        if (!res.ok) throw new Error('Error al registrar usuario');
+    },
+
     async listarActivos() {
-        const resActivos = await fetch(`${URL_BACKEND}/listar_articulos.php`);
+        // Ahora usamos fetchSeguro en vez de fetch normal
+        const resActivos = await fetchSeguro('/listar_articulos.php');
         const dbActivos = await resActivos.json();
         
-        const resPrestamos = await fetch(`${URL_BACKEND}/listar_prestamos_pendientes.php`);
+        const resPrestamos = await fetchSeguro('/listar_prestamos_pendientes.php');
         const dbPrestamos = await resPrestamos.json();
 
         const mapCategorias = { 1: 'Equipos Médicos', 2: 'Insumos Desechables' };
@@ -94,7 +132,7 @@ const api = {
             descripcion: datos.descripcion,
             id_categoria: datos.categoria === 'Equipos Médicos' ? 1 : 2
         };
-        const res = await fetch(`${URL_BACKEND}/registrar_articulo.php`, {
+        const res = await fetchSeguro(`/registrar_articulo.php`, {
             method: 'POST',
             body: JSON.stringify(payload)
         });
@@ -114,7 +152,7 @@ const api = {
             fecha_devolucion_esperada: prestamo.devolucion,
             observaciones: prestamo.nota
         };
-        const res = await fetch(`${URL_BACKEND}/registrar_prestamo.php`, {
+        const res = await fetchSeguro(`/registrar_prestamo.php`, {
             method: 'POST',
             body: JSON.stringify(payload)
         });
@@ -122,7 +160,7 @@ const api = {
     },
 
     async devolverPrestamo(prestamoId) {
-        const res = await fetch(`${URL_BACKEND}/registrar_devolucion.php`, {
+        const res = await fetchSeguro(`/registrar_devolucion.php`, {
             method: 'POST',
             body: JSON.stringify({ id_transaccion: prestamoId })
         });
@@ -225,6 +263,11 @@ function htmlBotones(a) {
         html += `<button type="button" class="btn btn-success btn-sm" data-accion="devolver" data-id="${esc(a.id)}">Devolver</button>`;
     }
     html += `<button type="button" class="btn btn-outline-primary btn-sm" data-accion="info" data-id="${esc(a.id)}">Info</button>`;
+    
+    if (a.prestamos.length === 0) {
+        html += `<button type="button" class="btn btn-outline-danger btn-sm ms-auto" data-accion="eliminar" data-id="${esc(a.id)}" title="Eliminar"><i class="fa-solid fa-trash"></i></button>`;
+    }
+
     return html;
 }
 
@@ -354,6 +397,17 @@ document.addEventListener('click', e => {
     if (boton.dataset.accion === 'prestar') abrirPrestar(a);
     if (boton.dataset.accion === 'devolver') abrirDevolver(a);
     if (boton.dataset.accion === 'info') abrirInfo(a);
+
+    if (boton.dataset.accion === 'eliminar') {
+        if (confirm(`¿Eliminar definitivamente el activo "${a.nombre}"? Esta acción no se puede deshacer.`)) {
+            api.eliminarActivo(a.id_real)
+                .then(() => {
+                    avisar('Activo eliminado.');
+                    recargar();
+                })
+                .catch(() => avisar('Error al eliminar el activo.', 'error'));
+        }
+    }
 });
 
 el('buscador').addEventListener('input', e => {
@@ -531,8 +585,51 @@ function abrirInfo(a) {
     modales.info.show();
 }
 
+/* ---------- Eventos de Sesión y Admin ---------- */
+const btnCerrar = el('btnCerrarSesion');
+const btnCerrarMovil = el('btnCerrarSesionMovil');
+if (btnCerrar) btnCerrar.addEventListener('click', e => { e.preventDefault(); api.cerrarSesion(); });
+if (btnCerrarMovil) btnCerrarMovil.addEventListener('click', e => { e.preventDefault(); api.cerrarSesion(); });
+
+const formAdmin = el('formAdmin');
+if (formAdmin) {
+    formAdmin.addEventListener('submit', async e => {
+        e.preventDefault();
+        formAdmin.classList.add('was-validated');
+        if (!formAdmin.checkValidity()) return;
+        
+        const boton = formAdmin.querySelector('[type="submit"]');
+        boton.disabled = true;
+        try {
+            await api.registrarAdmin({
+                rut: el('adminRut').value.trim(),
+                nombre_completo: el('adminNombre').value.trim(),
+                password: el('adminPass').value
+            });
+            bootstrap.Modal.getInstance(el('modalAdmin')).hide();
+            formAdmin.reset();
+            formAdmin.classList.remove('was-validated');
+            avisar('Administrador registrado correctamente.');
+        } catch (err) {
+            avisar('No se pudo registrar el usuario.', 'error');
+        } finally {
+            boton.disabled = false;
+        }
+    });
+}
+
+
 /* ---------- Inicio ---------- */
-function iniciar() {
+async function iniciar() { // <-- 1. Le agregamos "async" aquí
+    
+    // <-- 2. Agregamos este bloque de seguridad (el candado)
+    try {
+        await api.verificarSesion(); 
+    } catch (e) {
+        return; // Si no hay sesión, se detiene todo y no sigue leyendo hacia abajo
+    }
+
+    // <-- 3. El resto de tu código original se mantiene intacto
     el('regCategoria').innerHTML = '<option value="" selected disabled>Elige...</option>' +
         CATEGORIAS.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
     el('regEstado').innerHTML = '<option value="" selected disabled>Elige...</option>' +
