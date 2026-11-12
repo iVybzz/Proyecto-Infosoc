@@ -1,4 +1,17 @@
--- Tabla Personal (Usuarios del sistema)
+-- --------------------------------------------------------
+-- Base de Datos - Sistema de Inventario
+-- --------------------------------------------------------
+
+-- ATENCIÓN: Estas instrucciones eliminarán las tablas existentes para crearlas limpias.
+DROP TABLE IF EXISTS transaccion;
+DROP TABLE IF EXISTS activo;
+DROP TABLE IF EXISTS categoria_activo;
+DROP TABLE IF EXISTS beneficiario;
+DROP TABLE IF EXISTS personal;
+
+-- --------------------------------------------------------
+-- 1. Tabla Personal (Usuarios del sistema)
+-- --------------------------------------------------------
 CREATE TABLE personal (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     rut VARCHAR(10) UNIQUE NOT NULL,
@@ -6,7 +19,9 @@ CREATE TABLE personal (
     contrasena VARCHAR(255) NOT NULL
 );
 
--- Tabla beneficiario
+-- --------------------------------------------------------
+-- 2. Tabla Beneficiario
+-- --------------------------------------------------------
 CREATE TABLE beneficiario (
     id_beneficiario INT AUTO_INCREMENT PRIMARY KEY,
     rut VARCHAR(10) UNIQUE NOT NULL,
@@ -16,14 +31,18 @@ CREATE TABLE beneficiario (
     fecha_registro DATE
 );
 
--- Tabla Categoria_Activo
+-- --------------------------------------------------------
+-- 3. Tabla Categoria_Activo
+-- --------------------------------------------------------
 CREATE TABLE categoria_activo (
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,
     nombre_categoria VARCHAR(50) NOT NULL,
     es_retornable BOOLEAN NOT NULL
 );
 
--- Tabla Activo
+-- --------------------------------------------------------
+-- 4. Tabla Activo
+-- --------------------------------------------------------
 CREATE TABLE activo (
     id_activo INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -35,7 +54,9 @@ CREATE TABLE activo (
     FOREIGN KEY (id_categoria) REFERENCES categoria_activo(id_categoria)
 );
 
--- Tabla Transaccion
+-- --------------------------------------------------------
+-- 5. Tabla Transaccion
+-- --------------------------------------------------------
 CREATE TABLE transaccion (
     id_transaccion INT AUTO_INCREMENT PRIMARY KEY,
     fecha_salida DATE NOT NULL,
@@ -51,11 +72,17 @@ CREATE TABLE transaccion (
     FOREIGN KEY (id_usuario) REFERENCES personal(id_usuario)
 );
 
--- (#18) Cargar categorías iniciales
+-- --------------------------------------------------------
+-- INSERCIONES INICIALES
+-- --------------------------------------------------------
+
+-- Cargar categorías iniciales actualizadas
 INSERT INTO categoria_activo (nombre_categoria, es_retornable) VALUES
 ('Equipos Médicos', TRUE),
-('Insumos Desechables', FALSE);
+('Insumos Médicos', FALSE),
+('Campañas', FALSE);
 
--- (#19) Crear usuario admninistrador inicial
+-- Crear usuario admninistrador inicial (RUT: 12345678-9 / Clave: admin123)
+-- (El hash corresponde a la contraseña "admin123" usando Bcrypt)
 INSERT INTO personal (rut, nombre_completo, contrasena) VALUES
 ('12345678-9', 'Administrador', '$2y$10$wB5E3.g9k.V2fN7QO1r/U.d/hU0ZqKxL9H3/3p/O4hG/P8P6KqY.e');

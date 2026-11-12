@@ -109,9 +109,10 @@ if (formularioLogin) {
             });
 
             const datos = await respuesta.json();
-
+            
             // Si el backend responde con un "ok" (código 200)
             if (respuesta.ok && datos.status === 'ok') {
+                localStorage.setItem('nombreVoluntario', datos.usuario.nombre); 
                 window.location.href = 'inventario.html'; // Redirigir al inventario
             } else {
                 // Si la contraseña o el RUT son incorrectos
