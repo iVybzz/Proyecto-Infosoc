@@ -34,7 +34,7 @@
    Ver INVENTARIO_API.md para las tablas y endpoints sugeridos.
    ===================================================================== */
 
-const CATEGORIAS = ['Equipos Médicos', 'Insumos Desechables'];
+const CATEGORIAS = ['Equipos Médicos', 'Insumos Médicos', 'Campañas'];
 const ESTADOS = ['Nuevo', 'Bueno', 'Regular', 'Dañado'];
 const ICONOS = {
     'Equipos Médicos': 'fa-wheelchair',
@@ -90,7 +90,7 @@ const api = {
         const resPrestamos = await fetchSeguro('/listar_prestamos_pendientes.php');
         const dbPrestamos = await resPrestamos.json();
 
-        const mapCategorias = { 1: 'Equipos Médicos', 2: 'Insumos Desechables' };
+        const mapCategorias = { 1: 'Equipos Médicos', 2: 'Insumos Médicos', 3: 'Campañas' };
 
         return dbActivos.map(a => {
             // CORRECCIÓN FASE 2: Emparejamos por nombre (articulo_prestado) y capturamos 'telefono'
@@ -130,7 +130,7 @@ const api = {
             disponibilidad: 'Disponible',
             cantidad: cantidad,
             descripcion: datos.descripcion,
-            id_categoria: datos.categoria === 'Equipos Médicos' ? 1 : 2
+            id_categoria: datos.categoria === 'Equipos Médicos' ? 1 : (datos.categoria === 'Insumos Médicos' ? 2 : 3)
         };
         const res = await fetchSeguro(`/registrar_articulo.php`, {
             method: 'POST',
@@ -259,7 +259,7 @@ function htmlBotones(a) {
     if (disponibles(a) > 0) {
         html += `<button type="button" class="btn btn-primary btn-sm" data-accion="prestar" data-id="${esc(a.id)}">Prestar</button>`;
     }
-    if (a.prestamos.length > 0) {
+    if (a.prestamos.length > 0 && a.categoria === 'Equipos Médicos') {
         html += `<button type="button" class="btn btn-success btn-sm" data-accion="devolver" data-id="${esc(a.id)}">Devolver</button>`;
     }
     html += `<button type="button" class="btn btn-outline-primary btn-sm" data-accion="info" data-id="${esc(a.id)}">Info</button>`;
@@ -372,6 +372,9 @@ async function recargar() {
     try {
         activos = await api.listarActivos();
         render();
+        // Llenar el datalist con nombres únicos de la base de datos
+        const nombresUnicos = [...new Set(activos.map(a => a.nombre))];
+        el('listaNombresBD').innerHTML = nombresUnicos.map(n => `<option value="${esc(n)}">`).join('');
     } catch (e) {
         el('resumen').textContent = '';
         avisar('No se pudo cargar el inventario. Inténtalo de nuevo.', 'error');
@@ -638,6 +641,13 @@ async function iniciar() { // <-- 1. Le agregamos "async" aquí
     crearFiltros();
     el('resumen').textContent = 'Cargando inventario...';
     recargar();
+
+    // Mostrar nombre del usuario logueado
+    const nombreGuardado = localStorage.getItem('nombreVoluntario');
+    if (nombreGuardado) {
+        const panel = el('nombreUsuarioActivo');
+        if (panel) panel.innerHTML = `<i class="fa-solid fa-user-circle me-2"></i>Hola, ${esc(nombreGuardado)}`;
+    }
 }
 
 iniciar();
