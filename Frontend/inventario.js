@@ -264,7 +264,8 @@ function htmlBotones(a) {
     }
     html += `<button type="button" class="btn btn-outline-primary btn-sm" data-accion="info" data-id="${esc(a.id)}">Info</button>`;
     
-    if (a.prestamos.length === 0) {
+// El basurero aparece SIEMPRE para insumos/campañas, pero para Equipos solo si no hay préstamos
+    if (a.categoria !== 'Equipos Médicos' || a.prestamos.length === 0) {
         html += `<button type="button" class="btn btn-outline-danger btn-sm ms-auto" data-accion="eliminar" data-id="${esc(a.id)}" title="Eliminar"><i class="fa-solid fa-trash"></i></button>`;
     }
 
