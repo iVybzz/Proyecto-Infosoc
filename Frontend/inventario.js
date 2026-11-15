@@ -91,6 +91,21 @@ const api = {
         if (!res.ok) throw new Error('Error al cambiar la clave');
     },
 
+    async listarPersonal() {
+        const res = await fetchSeguro('/listar_personal.php');
+        return await res.json();
+    },
+    async eliminarPersonal(id) {
+        const res = await fetchSeguro('/eliminar_personal.php', {
+            method: 'DELETE',
+            body: JSON.stringify({ id_usuario: id })
+        });
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || 'Error al eliminar');
+        }
+    },
+
     async registrarAdmin(datos) {
         const res = await fetchSeguro('/registrar_personal.php', {
             method: 'POST',
@@ -446,6 +461,25 @@ document.addEventListener('click', e => {
                 .catch(() => avisar('Error al eliminar el activo.', 'error'));
         }
     }
+
+    // --- NUEVO: Clic en el botón de borrar personal ---
+    const btnBorrarPersonal = e.target.closest('[data-borrar-personal]');
+    if (btnBorrarPersonal) {
+        const id = btnBorrarPersonal.dataset.borrarPersonal;
+        if (confirm('¿Estás seguro de que deseas eliminar a este usuario? Perderá su acceso al sistema inmediatamente.')) {
+            btnBorrarPersonal.disabled = true;
+            api.eliminarPersonal(id)
+                .then(() => {
+                    avisar('Usuario eliminado correctamente.');
+                    cargarListaPersonal(); // Recargar la lista automáticamente
+                })
+                .catch(err => {
+                    avisar(err.message, 'error');
+                    btnBorrarPersonal.disabled = false;
+                });
+        }
+        return; // Salir para que no ejecute otras lógicas de clic
+    }
 });
 
 /* ---------- Editar Estado ---------- */
@@ -755,6 +789,38 @@ if (formClave) {
             boton.disabled = false;
         }
     });
+}
+
+/* ---------- Gestión de Personal ---------- */
+async function cargarListaPersonal() {
+    const contenedor = el('listaPersonal');
+    contenedor.innerHTML = '<p class="text-center text-secondary"><i class="fa-solid fa-spinner fa-spin"></i> Cargando...</p>';
+    try {
+        const personal = await api.listarPersonal();
+        if (personal.length === 0) {
+            contenedor.innerHTML = '<p class="text-secondary text-center">No hay personal registrado.</p>';
+            return;
+        }
+        contenedor.innerHTML = personal.map(u => `
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>${esc(u.nombre_completo)}</strong>
+                    <div class="small text-secondary">RUT: ${esc(u.rut)}</div>
+                </div>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-borrar-personal="${u.id_usuario}" title="Quitar Acceso">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        `).join('');
+    } catch (error) {
+        contenedor.innerHTML = '<p class="text-danger text-center">Error al cargar la lista.</p>';
+    }
+}
+
+// Escuchar cuando se abre el modal para cargar la lista
+const modalPersonalElement = el('modalPersonal');
+if (modalPersonalElement) {
+    modalPersonalElement.addEventListener('show.bs.modal', cargarListaPersonal);
 }
 
 iniciar();

@@ -39,6 +39,7 @@
 
                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalClave"><i class="fa-solid fa-key"></i>Cambiar mi clave</a>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalAdmin" class="mt-2"><i class="fa-solid fa-user-plus"></i>Nuevo Admin</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modalPersonal" class="mt-2"><i class="fa-solid fa-users-gear"></i>Gestión Personal</a>
                 <a href="#" id="btnCerrarSesion" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i>Cerrar sesión</a>
             </nav>
         </aside>
@@ -57,6 +58,7 @@
                     <a href="index.html" class="btn btn-outline-secondary btn-sm" aria-label="Volver"><i class="fa-solid fa-arrow-left"></i></a>
                     <button class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalClave"><i class="fa-solid fa-key"></i></button>
                     <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAdmin" title="Nuevo Admin"><i class="fa-solid fa-user-plus"></i></button>
+                    <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalPersonal" title="Gestión Personal"><i class="fa-solid fa-users-gear"></i></button>
                     <button class="btn btn-outline-danger btn-sm" id="btnCerrarSesionMovil" title="Cerrar sesión"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
             </header>
@@ -343,6 +345,27 @@
                     <button type="submit" class="btn btn-primary fw-bold">Actualizar contraseña</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: GESTIÓN DE PERSONAL ================= -->
+    <div class="modal fade" id="modalPersonal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title h5 fw-bold custom-text-blue">Gestión de Personal</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary small mb-3">Lista de usuarios con acceso al sistema administrativo.</p>
+                    <div id="listaPersonal" class="list-group">
+                        <p class="text-center text-secondary">Cargando...</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
         </div>
     </div>
 
