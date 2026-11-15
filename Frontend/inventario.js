@@ -74,6 +74,15 @@ const api = {
         });
         if (!res.ok) throw new Error('Error al eliminar');
     },
+
+    async editarEstado(idReal, nuevoEstado) {
+        const res = await fetchSeguro('/editar_estado.php', {
+            method: 'POST',
+            body: JSON.stringify({ id_activo: idReal, estado_fisico: nuevoEstado })
+        });
+        if (!res.ok) throw new Error('Error al editar');
+    },
+
     async registrarAdmin(datos) {
         const res = await fetchSeguro('/registrar_personal.php', {
             method: 'POST',
@@ -212,7 +221,8 @@ const modales = {
     registrar: new bootstrap.Modal(el('modalRegistrar')),
     prestar: new bootstrap.Modal(el('modalPrestar')),
     devolver: new bootstrap.Modal(el('modalDevolver')),
-    info: new bootstrap.Modal(el('modalInfo'))
+    info: new bootstrap.Modal(el('modalInfo')),
+    editar: new bootstrap.Modal(el('modalEditar'))
 };
 
 /* ---------- Avisos ---------- */
@@ -226,7 +236,7 @@ function avisar(mensaje, tipo) {
 
 /* ---------- Piezas de pantalla ---------- */
 function htmlImagen(a) {
-    return `<i class="fa-solid ${ICONOS[a.categoria] || 'fa-image'}" aria-hidden="true"></i>`;
+    return `<i class="fa-solid ${ICONOS[a.categoria] || 'fa-box'}" aria-hidden="true"></i>`;
 }
 
 function claseEstado(estado) {
@@ -272,6 +282,8 @@ function htmlBotones(a) {
         html += `<button type="button" class="btn btn-success btn-sm" data-accion="devolver" data-id="${esc(a.id)}">Devolver</button>`;
     }
     html += `<button type="button" class="btn btn-outline-primary btn-sm" data-accion="info" data-id="${esc(a.id)}">Info</button>`;
+
+    html += `<button type="button" class="btn btn-outline-secondary btn-sm" data-accion="editar" data-id="${esc(a.id)}" title="Editar Estado"><i class="fa-solid fa-pen"></i></button>`;
     
 // El basurero aparece SIEMPRE para insumos/campañas, pero para Equipos solo si no hay préstamos
     if (a.categoria !== 'Equipos Médicos' || a.prestamos.length === 0) {
@@ -414,6 +426,7 @@ document.addEventListener('click', e => {
     if (boton.dataset.accion === 'prestar') abrirPrestar(a);
     if (boton.dataset.accion === 'devolver') abrirDevolver(a);
     if (boton.dataset.accion === 'info') abrirInfo(a);
+    if (boton.dataset.accion === 'editar') abrirEditar(a);
 
     if (boton.dataset.accion === 'eliminar') {
         if (confirm(`¿Eliminar definitivamente el activo "${a.nombre}"? Esta acción no se puede deshacer.`)) {
@@ -426,6 +439,35 @@ document.addEventListener('click', e => {
         }
     }
 });
+
+/* ---------- Editar Estado ---------- */
+const formEditar = el('formEditar');
+function abrirEditar(a) {
+    formEditar.reset();
+    el('editResumen').textContent = `${a.nombre} (${a.id})`;
+    // Generamos las opciones y dejamos preseleccionado el estado actual
+    el('editEstado').innerHTML = ESTADOS.map(s => `<option value="${esc(s)}" ${s === a.estado ? 'selected' : ''}>${esc(s)}</option>`).join('');
+    modales.editar.show();
+}
+
+if (formEditar) {
+    formEditar.addEventListener('submit', async e => {
+        e.preventDefault();
+        const boton = formEditar.querySelector('[type="submit"]');
+        boton.disabled = true;
+        try {
+            const a = activos.find(x => x.id === idPendiente);
+            await api.editarEstado(a.id_real, el('editEstado').value);
+            await recargar();
+            modales.editar.hide();
+            avisar('Estado del activo actualizado.');
+        } catch (err) {
+            avisar('No se pudo actualizar el estado.', 'error');
+        } finally {
+            boton.disabled = false;
+        }
+    });
+}
 
 el('buscador').addEventListener('input', e => {
     textoBusqueda = e.target.value;
