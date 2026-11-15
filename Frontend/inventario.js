@@ -106,6 +106,17 @@ const api = {
         }
     },
 
+    async resetearClave(id) {
+        const res = await fetchSeguro('/resetear_clave.php', {
+            method: 'POST',
+            body: JSON.stringify({ id_usuario: id })
+        });
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || 'Error al resetear la clave');
+        }
+    },
+
     async registrarAdmin(datos) {
         const res = await fetchSeguro('/registrar_personal.php', {
             method: 'POST',
@@ -362,12 +373,12 @@ function tarjetaMovil(a) {
 function crearFiltros() {
     el('filtrosMovil').innerHTML = CATEGORIAS.map(c =>
         `<div class="col-4">
-            <button type="button" class="filtro-tile" data-cat="${esc(c)}" aria-pressed="false">
+            <button type="button" class="filtro-tile h-100" data-cat="${esc(c)}" aria-pressed="false">
                 <span class="cantidad" data-cuenta="${esc(c)}">0</span>
                 <span class="nombre">${esc(c)}</span>
             </button>
         </div>`).join('');
-
+        
     el('filtrosEscritorio').innerHTML =
         `<button type="button" class="filtro-pill" data-cat="" aria-pressed="true">Todos</button>` +
         CATEGORIAS.map(c =>
@@ -439,27 +450,24 @@ document.addEventListener('click', e => {
         render();
         return;
     }
-
-    const boton = e.target.closest('[data-accion]');
-    if (!boton) return;
-    const a = activos.find(x => x.id === boton.dataset.id);
-    if (!a) return;
-    idPendiente = a.id;
-
-    if (boton.dataset.accion === 'prestar') abrirPrestar(a);
-    if (boton.dataset.accion === 'devolver') abrirDevolver(a);
-    if (boton.dataset.accion === 'info') abrirInfo(a);
-    if (boton.dataset.accion === 'editar') abrirEditar(a);
-
-    if (boton.dataset.accion === 'eliminar') {
-        if (confirm(`¿Eliminar definitivamente el activo "${a.nombre}"? Esta acción no se puede deshacer.`)) {
-            api.eliminarActivo(a.id_real)
+    
+    // --- NUEVO: Clic en resetear clave ---
+    const btnResetPersonal = e.target.closest('[data-reset-personal]');
+    if (btnResetPersonal) {
+        const id = btnResetPersonal.dataset.resetPersonal;
+        if (confirm('¿Deseas resetear la contraseña de este usuario? Su nueva clave temporal será "123456".')) {
+            btnResetPersonal.disabled = true;
+            api.resetearClave(id)
                 .then(() => {
-                    avisar('Activo eliminado.');
-                    recargar();
+                    avisar('Contraseña reseteada a 123456 correctamente.');
+                    btnResetPersonal.disabled = false;
                 })
-                .catch(() => avisar('Error al eliminar el activo.', 'error'));
+                .catch(err => {
+                    avisar(err.message, 'error');
+                    btnResetPersonal.disabled = false;
+                });
         }
+        return;
     }
 
     // --- NUEVO: Clic en el botón de borrar personal ---
@@ -480,6 +488,29 @@ document.addEventListener('click', e => {
         }
         return; // Salir para que no ejecute otras lógicas de clic
     }
+
+    const boton = e.target.closest('[data-accion]');
+    if (!boton) return;
+    const a = activos.find(x => x.id === boton.dataset.id);
+    if (!a) return;
+    idPendiente = a.id;
+    
+    if (boton.dataset.accion === 'prestar') abrirPrestar(a);
+    if (boton.dataset.accion === 'devolver') abrirDevolver(a);
+    if (boton.dataset.accion === 'info') abrirInfo(a);
+    if (boton.dataset.accion === 'editar') abrirEditar(a);
+
+    if (boton.dataset.accion === 'eliminar') {
+        if (confirm(`¿Eliminar definitivamente el activo "${a.nombre}"? Esta acción no se puede deshacer.`)) {
+            api.eliminarActivo(a.id_real)
+                .then(() => {
+                    avisar('Activo eliminado.');
+                    recargar();
+                })
+                .catch(() => avisar('Error al eliminar el activo.', 'error'));
+        }
+    }
+
 });
 
 /* ---------- Editar Estado ---------- */
@@ -762,8 +793,13 @@ async function iniciar() { // <-- 1. Le agregamos "async" aquí
     // Mostrar nombre del usuario logueado
     const nombreGuardado = localStorage.getItem('nombreVoluntario');
     if (nombreGuardado) {
+        // En escritorio
         const panel = el('nombreUsuarioActivo');
         if (panel) panel.innerHTML = `<i class="fa-solid fa-user-circle me-2"></i>Hola, ${esc(nombreGuardado)}`;
+        
+        // En móvil
+        const panelMovil = el('nombreUsuarioMovil');
+        if (panelMovil) panelMovil.innerHTML = `<i class="fa-solid fa-user-circle me-2"></i>Hola, ${esc(nombreGuardado)}`;
     }
 }
 
@@ -807,9 +843,16 @@ async function cargarListaPersonal() {
                     <strong>${esc(u.nombre_completo)}</strong>
                     <div class="small text-secondary">RUT: ${esc(u.rut)}</div>
                 </div>
-                <button type="button" class="btn btn-outline-danger btn-sm" data-borrar-personal="${u.id_usuario}" title="Quitar Acceso">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
+                <div class="d-flex gap-2">
+                    <!-- Botón de Resetear Clave -->
+                    <button type="button" class="btn btn-outline-warning btn-sm" data-reset-personal="${u.id_usuario}" title="Resetear a 123456">
+                        <i class="fa-solid fa-key"></i>
+                    </button>
+                    <!-- Botón de Borrar (Ya lo tenías) -->
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-borrar-personal="${u.id_usuario}" title="Quitar Acceso">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
             </div>
         `).join('');
     } catch (error) {
