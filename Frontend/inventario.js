@@ -100,7 +100,7 @@ const api = {
                 telefono: p.telefono || '',
                 cantidad: parseInt(p.cantidad_entregada, 10),
                 desde: p.fecha_salida,
-                devolucion: p.fecha_esperada_devolucion,
+                devolucion: p.fecha_devolucion_esperada,
                 nota: p.observaciones || ''
             }));
 
@@ -245,11 +245,20 @@ function htmlDisponibilidad(a) {
 
 function htmlDetallePrestamo(a) {
     if (a.prestamos.length === 0) return '<span class="text-secondary">—</span>';
-    const lineas = a.prestamos.slice(0, 3).map(p =>
-        `<div><strong>${esc(p.prestatario)}</strong>` +
-        (a.cantidad > 1 ? ` · ${p.cantidad} ud.` : '') +
-        ` · devuelve ${esc(fechaCorta(p.devolucion))}` +
-        (prestamoAtrasado(p) ? ' <span class="badge text-bg-danger">Atrasado</span>' : '') + '</div>');
+    const lineas = a.prestamos.slice(0, 3).map(p => {
+        if (a.categoria === 'Equipos Médicos') {
+            // Formato para préstamos (con devolución)
+            return `<div><strong>${esc(p.prestatario)}</strong>` +
+                   (a.cantidad > 1 ? ` — ${p.cantidad} ud.` : '') +
+                   ` — devuelve ${esc(fechaCorta(p.devolucion))}` +
+                   (prestamoAtrasado(p) ? ' <span class="badge text-bg-danger">Atrasado</span>' : '') + '</div>';
+        } else {
+            // Formato para entregas (sin devolución)
+            return `<div>Entregado a: <strong>${esc(p.prestatario)}</strong>` +
+                   (a.cantidad > 1 ? ` — ${p.cantidad} ud.` : '') +
+                   ` el ${esc(fechaCorta(p.desde))}</div>`;
+        }
+    });
     if (a.prestamos.length > 3) lineas.push(`<div class="text-secondary">y ${a.prestamos.length - 3} más (ver Info)</div>`);
     return lineas.join('');
 }
@@ -288,13 +297,17 @@ function filaTabla(a) {
 function barraMovil(a) {
     const d = disponibles(a);
     if (a.prestamos.length === 0) {
-        return `<div class="disp disponible">DISPONIBLE${a.cantidad > 1 ? ` · ${unidades(a.cantidad)}` : ''}</div>`;
+        return `<div class="disp disponible">DISPONIBLE${a.cantidad > 1 ? ` — ${unidades(a.cantidad)}` : ''}</div>`;
     }
     const primero = a.prestamos[0].prestatario;
     const otros = a.prestamos.length > 1 ? ` y ${a.prestamos.length - 1} más` : '';
-    const atraso = hayAtrasado(a) ? ' (atrasado)' : '';
-    if (d === 0) return `<div class="disp prestado">Prestado: ${esc(primero)}${esc(otros)}${atraso}</div>`;
-    return `<div class="disp parcial">Disponibles ${d} de ${a.cantidad} · Prestado: ${esc(primero)}${esc(otros)}${atraso}</div>`;
+    const atraso = (a.categoria === 'Equipos Médicos' && hayAtrasado(a)) ? ' (atrasado)' : '';
+    
+    // Cambiar la etiqueta según la categoría
+    const etiqueta = a.categoria === 'Equipos Médicos' ? 'Prestado:' : 'Entregado a:';
+
+    if (d === 0) return `<div class="disp prestado">${etiqueta} ${esc(primero)}${esc(otros)}${atraso}</div>`;
+    return `<div class="disp parcial">Disponibles ${d} de ${a.cantidad} — ${etiqueta} ${esc(primero)}${esc(otros)}${atraso}</div>`;
 }
 
 function tarjetaMovil(a) {
@@ -557,16 +570,34 @@ el('devolverLista').addEventListener('click', async e => {
 /* ---------- Información ---------- */
 function abrirInfo(a) {
     const d = disponibles(a);
+    
+    // 1. Cambiamos los títulos según si se devuelve o no
+    const esEquipo = a.categoria === 'Equipos Médicos';
+    const tituloSeccion = esEquipo ? 'Préstamos activos' : 'Entregas registradas';
+    const labelPrestadas = esEquipo ? 'Prestadas' : 'Entregadas';
+
     const prestamos = a.prestamos.length === 0
-        ? '<p class="text-secondary mb-0">No hay préstamos activos.</p>'
-        : a.prestamos.map(p => `
+        ? `<p class="text-secondary mb-0">No hay ${esEquipo ? 'préstamos' : 'entregas'}.</p>`
+        : a.prestamos.map(p => {
+            
+            // 2. Adaptamos la fecha y el atraso
+            let textoFechas = esEquipo 
+                ? `Desde ${esc(fechaCorta(p.desde))} — Devuelve ${esc(fechaCorta(p.devolucion))}`
+                : `Entregado el ${esc(fechaCorta(p.desde))}`;
+                
+            let badgeAtraso = (esEquipo && prestamoAtrasado(p)) 
+                ? '<span class="badge text-bg-danger ms-1">Atrasado</span>' 
+                : '';
+
+            return `
             <div class="border rounded p-2 mb-2">
-                <strong>${esc(p.prestatario)}</strong> · ${unidades(p.cantidad)}
-                ${prestamoAtrasado(p) ? '<span class="badge text-bg-danger ms-1">Atrasado</span>' : ''}
-                <div class="small text-secondary">Desde ${esc(fechaCorta(p.desde))} · Devuelve ${esc(fechaCorta(p.devolucion))}</div>
+                <strong>${esc(p.prestatario)}</strong> — ${unidades(p.cantidad)}
+                ${badgeAtraso}
+                <div class="small text-secondary">${textoFechas}</div>
                 ${p.telefono ? `<div class="small text-secondary">Teléfono: ${esc(p.telefono)}</div>` : ''}
                 ${p.nota ? `<div class="small text-secondary">Nota: ${esc(p.nota)}</div>` : ''}
-            </div>`).join('');
+            </div>`;
+        }).join('');
 
     el('infoCuerpo').innerHTML = `
         <div class="d-flex gap-3 align-items-center mb-3">
@@ -581,11 +612,12 @@ function abrirInfo(a) {
             <dt class="col-5">Estado</dt><dd class="col-7"><span class="badge ${claseEstado(a.estado)}">${esc(a.estado)}</span></dd>
             <dt class="col-5">Cantidad total</dt><dd class="col-7">${a.cantidad}</dd>
             <dt class="col-5">Disponibles</dt><dd class="col-7">${d}</dd>
-            <dt class="col-5">Prestadas</dt><dd class="col-7">${totalPrestado(a)}</dd>
+            <dt class="col-5">${labelPrestadas}</dt><dd class="col-7">${totalPrestado(a)}</dd>
             <dt class="col-5">Descripción</dt><dd class="col-7">${a.descripcion ? esc(a.descripcion) : '<span class="text-secondary">Sin descripción</span>'}</dd>
         </dl>
-        <h3 class="h6 fw-bold custom-text-blue">Préstamos activos</h3>
+        <h3 class="h6 fw-bold custom-text-blue">${tituloSeccion}</h3>
         ${prestamos}`;
+        
     modales.info.show();
 }
 
