@@ -83,6 +83,14 @@ const api = {
         if (!res.ok) throw new Error('Error al editar');
     },
 
+    async cambiarClave(nuevaClave) {
+        const res = await fetchSeguro('/cambiar_clave.php', {
+            method: 'POST',
+            body: JSON.stringify({ nueva_clave: nuevaClave })
+        });
+        if (!res.ok) throw new Error('Error al cambiar la clave');
+    },
+
     async registrarAdmin(datos) {
         const res = await fetchSeguro('/registrar_personal.php', {
             method: 'POST',
@@ -723,6 +731,30 @@ async function iniciar() { // <-- 1. Le agregamos "async" aquí
         const panel = el('nombreUsuarioActivo');
         if (panel) panel.innerHTML = `<i class="fa-solid fa-user-circle me-2"></i>Hola, ${esc(nombreGuardado)}`;
     }
+}
+
+/* ---------- Cambiar Contraseña ---------- */
+const formClave = el('formClave');
+if (formClave) {
+    formClave.addEventListener('submit', async e => {
+        e.preventDefault();
+        formClave.classList.add('was-validated');
+        if (!formClave.checkValidity()) return;
+        
+        const boton = formClave.querySelector('[type="submit"]');
+        boton.disabled = true;
+        try {
+            await api.cambiarClave(el('nuevaClave').value);
+            bootstrap.Modal.getInstance(el('modalClave')).hide();
+            formClave.reset();
+            formClave.classList.remove('was-validated');
+            avisar('Tu contraseña ha sido actualizada con éxito.');
+        } catch (err) {
+            avisar('No se pudo actualizar la contraseña.', 'error');
+        } finally {
+            boton.disabled = false;
+        }
+    });
 }
 
 iniciar();

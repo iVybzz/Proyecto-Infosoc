@@ -37,6 +37,7 @@
                 <a href="inventario.html" class="activo" aria-current="page"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i>Inventario</a>
                 <a href="index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i>Volver al sitio</a>
 
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modalClave"><i class="fa-solid fa-key"></i>Cambiar mi clave</a>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalAdmin" class="mt-2"><i class="fa-solid fa-user-plus"></i>Nuevo Admin</a>
                 <a href="#" id="btnCerrarSesion" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i>Cerrar sesión</a>
             </nav>
@@ -54,6 +55,7 @@
                 <div class="d-none d-lg-block fw-bold custom-text-blue" id="nombreUsuarioActivo">Panel de funcionarios</div>
                 <div class="d-flex gap-2 d-lg-none">
                     <a href="index.html" class="btn btn-outline-secondary btn-sm" aria-label="Volver"><i class="fa-solid fa-arrow-left"></i></a>
+                    <button class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalClave"><i class="fa-solid fa-key"></i></button>
                     <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAdmin" title="Nuevo Admin"><i class="fa-solid fa-user-plus"></i></button>
                     <button class="btn btn-outline-danger btn-sm" id="btnCerrarSesionMovil" title="Cerrar sesión"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
@@ -316,6 +318,29 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary fw-bold">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MODAL: CAMBIAR CLAVE ================= -->
+    <div class="modal fade" id="modalClave" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content" id="formClave" novalidate>
+                <div class="modal-header">
+                    <h2 class="modal-title h5 fw-bold custom-text-blue">Cambiar mi contraseña</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nueva contraseña *</label>
+                        <input type="password" class="form-control form-control-lg" id="nuevaClave" minlength="6" required>
+                        <div class="invalid-feedback">La contraseña debe tener al menos 6 caracteres.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary fw-bold">Actualizar contraseña</button>
                 </div>
             </form>
         </div>
