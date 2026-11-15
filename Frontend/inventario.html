@@ -298,6 +298,29 @@
         </div>
     </div>
 
+    <!-- ================= MODAL: EDITAR ESTADO ================= -->
+    <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content" id="formEditar" novalidate>
+                <div class="modal-header">
+                    <h2 class="modal-title h5 fw-bold custom-text-blue">Editar Estado del Activo</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3 fw-bold" id="editResumen"></p>
+                    <div class="mb-3">
+                        <label for="editEstado" class="form-label fw-bold">Nuevo Estado *</label>
+                        <select class="form-select form-select-lg" id="editEstado" required></select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary fw-bold">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Avisos -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
         <div id="aviso" class="toast align-items-center border-0" role="status" aria-live="polite" aria-atomic="true">
