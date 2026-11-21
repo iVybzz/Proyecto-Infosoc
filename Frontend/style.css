@@ -45,8 +45,8 @@ html {
     position: absolute;
     bottom: 15px;
     right: 15px;
-    width: 64px;
-    height: 58px;
+    width: 55px;
+    height: 55px;
     display: flex;
     flex-direction: column;
     justify-content: center;
