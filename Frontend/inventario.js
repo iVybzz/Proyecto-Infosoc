@@ -42,7 +42,9 @@ const ICONOS = {
 };
 
 // IMPORTANTE: Pídele a tu equipo la URL real de InfinityFree y reemplázala aquí
-const URL_BACKEND = 'https://infosoc.alwaysdata.net/api';
+//const URL_BACKEND = 'https://infosoc.alwaysdata.net/api';
+const URL_BACKEND = '/api';
+
 
 // NUEVO: Interceptor seguro para todas las peticiones
 const fetchSeguro = async (endpoint, opciones = {}) => {
@@ -566,7 +568,6 @@ const formRegistrar = el('formRegistrar');
 el('modalRegistrar').addEventListener('show.bs.modal', () => {
     formRegistrar.reset();
     formRegistrar.classList.remove('was-validated');
-    el('errorImagen').classList.add('d-none');
 });
 
 formRegistrar.addEventListener('submit', async e => {
@@ -777,6 +778,7 @@ async function iniciar() { // <-- 1. Le agregamos "async" aquí
     try {
         await api.verificarSesion(); 
     } catch (e) {
+        console.error('Falló verificarSesion:', e);
         return; // Si no hay sesión, se detiene todo y no sigue leyendo hacia abajo
     }
 
