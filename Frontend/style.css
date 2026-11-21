@@ -45,12 +45,13 @@ html {
     position: absolute;
     bottom: 15px;
     right: 15px;
-    width: 55px;
-    height: 55px;
+    width: 64px;
+    height: 58px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     transition: transform 0.2s;
 }
 .admin-access:hover {
