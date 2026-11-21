@@ -96,7 +96,7 @@ if (formularioLogin) {
         botonSubmit.innerHTML = 'Validando... <i class="fa-solid fa-circle-notch fa-spin ms-2"></i>';
 
         // IMPORTANTE: Aquí pondrás la URL de AlwaysData (o el nuevo hosting) cuando te la entreguen
-        const URL_LOGIN = 'https://infosoc.alwaysdata.net/api/login.php';
+        const URL_LOGIN = '/api/login.php';
 
         try {
             const respuesta = await fetch(URL_LOGIN, {
@@ -139,7 +139,7 @@ if (btnAccesoVoluntarios) {
     btnAccesoVoluntarios.addEventListener('click', async function (e) {
         e.preventDefault();
         try {
-            const res = await fetch('https://infosoc.alwaysdata.net/api/verificar_sesion.php', {
+            const res = await fetch('/api/verificar_sesion.php', {
                 credentials: 'include'
             });
             const datos = await res.json();
