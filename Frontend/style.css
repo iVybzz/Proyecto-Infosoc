@@ -66,3 +66,12 @@ html {
     transform: translateY(-3px);
     box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1) !important;
 }
+
+.nav-link-pc {
+    transition: color 0.2s ease;
+    font-size: 0.98rem;
+}
+
+.nav-link-pc:hover {
+    color: #2e86c1 !important;
+}

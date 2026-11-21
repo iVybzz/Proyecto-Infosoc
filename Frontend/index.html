@@ -27,15 +27,25 @@
         <!-- CABECERA ORIGINAL -->
         <header class="d-flex justify-content-between align-items-center p-3 border-bottom">
             <div class="d-flex align-items-center gap-2">
-                <i class="fa-solid fa-handshake fs-1" style="color: #2e86c1;"></i>
+                <img src="img/logo.png" alt="Logo Organización" style="height: 55px; width: auto; object-fit: contain;">
                 <h1 class="header-title mb-0">
                     Organización de Padres<br>y Amigos de Personas<br>con Discapacidad
                 </h1>
             </div>
-            <button class="btn btn-primary menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
+            <button class="btn btn-primary menu-btn d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
                 <i class="fa-solid fa-bars fs-4"></i>
             </button>
         </header>
+
+        <!-- MENÚ HORIZONTAL (Solo PC) -->
+        <nav class="d-none d-lg-flex justify-content-center align-items-center gap-4 py-2 px-3 border-bottom bg-light">
+            <a href="#seccion-feed" class="nav-link-pc text-decoration-none text-dark fw-medium">Facebook</a>
+            <a href="#seccion-quienes-somos" class="nav-link-pc text-decoration-none text-dark fw-medium">Quiénes Somos</a>
+            <a href="#seccion-recibimos" class="nav-link-pc text-decoration-none text-dark fw-medium">¿Qué recibimos?</a>
+            <a href="#seccion-ubicacion" class="nav-link-pc text-decoration-none text-dark fw-medium">Ubicación y Contacto</a>
+            <span class="text-secondary opacity-25">|</span>
+            <a href="#seccion-donacion" class="nav-link-pc text-decoration-none custom-text-blue fw-bold">Donaciones</a>
+        </nav>
 
         <main class="flex-grow-1 p-4">
             <!-- INICIO DE LA NUEVA GRILLA -->
@@ -43,68 +53,50 @@
 
                 <!-- 1. NOTICIAS TIPO CARRUSEL (Ancho completo: 12 columnas) -->
                 <!-- Corregido: el id "seccion-feed" ahora está en el contenedor, así el menú funciona -->
+                <!-- 1. BANNER CARRUSEL: INVITACIÓN A FACEBOOK -->
                 <div class="col-12" id="seccion-feed">
-                    <div id="carruselNovedades" class="carousel slide rounded-4 overflow-hidden shadow-sm" data-bs-ride="carousel">
+                    <div id="carruselNovedades" class="carousel slide carousel-fade rounded-4 overflow-hidden shadow-sm position-relative" data-bs-ride="carousel" data-bs-interval="4500">
 
-                        <!-- Indicadores (Las rayitas de abajo) -->
-                        <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#carruselNovedades" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#carruselNovedades" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#carruselNovedades" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <!-- Indicadores (agrega un botón más por cada foto extra que sumes) -->
+                        <div class="carousel-indicators z-3">
+                            <button type="button" data-bs-target="#carruselNovedades" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Foto 1"></button>
+                            <button type="button" data-bs-target="#carruselNovedades" data-bs-slide-to="1" aria-label="Foto 2"></button>
                         </div>
 
-                        <!-- Diapositivas -->
+                        <!-- Fotos de fondo (cambia las rutas por tus fotos en la carpeta img/) -->
                         <div class="carousel-inner">
-
-                            <!-- Noticia 1 (Activa) -->
-                            <div class="carousel-item active" data-bs-interval="5000">
-                                <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=1200&auto=format&fit=crop" class="d-block w-100 object-fit-cover" alt="Actividad 1" style="height: 300px;">
-                                <!-- Sombreado oscuro para que el texto resalte -->
-                                <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
-                                <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 pb-0">
-                                    <h2 class="h3 fw-bold text-white mb-3">¡Gran Bingo Solidario de Invierno!</h2>
-                                    <p class="text-white fs-5 mb-4">Acompáñanos este sábado a reunir fondos para la comunidad.</p>
-                                    <a href="https://www.facebook.com/organizacion.discapacidad" target="_blank" rel="noopener noreferrer" class="btn btn-primary fw-bold px-4 py-2 rounded-pill shadow">
-                                        <i class="fa-brands fa-facebook fs-5 me-2"></i>Ver detalles en Facebook
-                                    </a>
-                                </div>
+                            <div class="carousel-item active">
+                                <img src="img/comunidad.jpg" class="d-block w-100 object-fit-cover" alt="Nuestra comunidad" style="height: 320px;">
                             </div>
-
-                            <!-- Noticia 2 -->
-                            <div class="carousel-item" data-bs-interval="5000">
-                                <img src="https://images.unsplash.com/photo-1593113630400-ea4288922497?q=80&w=1200&auto=format&fit=crop" class="d-block w-100 object-fit-cover" alt="Actividad 2" style="height: 300px;">
-                                <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
-                                <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 pb-0">
-                                    <h2 class="h3 fw-bold text-white mb-3">Taller de Inclusión Escolar</h2>
-                                    <p class="text-white fs-5 mb-4">Revisa las fotos de nuestra última charla con docentes.</p>
-                                    <a href="https://www.facebook.com/organizacion.discapacidad" target="_blank" rel="noopener noreferrer" class="btn btn-primary fw-bold px-4 py-2 rounded-pill shadow">
-                                        <i class="fa-brands fa-facebook fs-5 me-2"></i>Ver galería en Facebook
-                                    </a>
-                                </div>
+                            <div class="carousel-item">
+                                <img src="img/comunidad2.jpg" class="d-block w-100 object-fit-cover" alt="Actividades de la organización" style="height: 320px;">
                             </div>
-
-                            <!-- Noticia 3 -->
-                            <div class="carousel-item" data-bs-interval="5000">
-                                <img src="https://images.unsplash.com/photo-1518398046578-8cca57782e17?q=80&w=1200&auto=format&fit=crop" class="d-block w-100 object-fit-cover" alt="Actividad 3" style="height: 300px;">
-                                <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
-                                <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100 pb-0">
-                                    <h2 class="h3 fw-bold text-white mb-3">Campaña de Recolección de Sillas</h2>
-                                    <p class="text-white fs-5 mb-4">Logramos la meta mensual gracias a tu ayuda.</p>
-                                    <!-- Este botón ahora sí abre el diálogo de compartir de Facebook -->
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fproyecto-infosoc.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-primary fw-bold px-4 py-2 rounded-pill shadow">
-                                        <i class="fa-brands fa-facebook fs-5 me-2"></i>Compartir en Facebook
-                                    </a>
-                                </div>
-                            </div>
-
                         </div>
 
-                        <!-- Controles de Anterior / Siguiente -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carruselNovedades" data-bs-slide="prev">
+                        <!-- Capa fija de invitación (no se mueve al cambiar las fotos) -->
+                        <!-- Capa fija de invitación (optimizada para móvil y PC) -->
+                        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center px-4 pt-3 pb-5 p-md-4 z-2"
+                            style="background: linear-gradient(rgba(15, 32, 56, 0.50), rgba(15, 32, 56, 0.72)); pointer-events: none;">
+                            <span class="badge rounded-pill bg-primary bg-opacity-75 px-3 py-1 py-md-2 mb-2 fw-semibold">
+                                <i class="fa-brands fa-facebook me-1"></i> Comunidad Activa
+                            </span>
+                            <h2 class="h4 fw-bold text-white mb-2 px-3">¡Sigue nuestro día a día en Facebook!</h2>
+                            <p class="text-white-50 mb-4 d-none d-sm-block" style="max-width: 560px; font-size: 1.05rem;">
+                                Entérate de nuestras campañas, actividades, entrega de ayudas y próximos encuentros comunitarios.
+                            </p>
+                            <a href="https://www.facebook.com/organizacion.discapacidad" target="_blank" rel="noopener noreferrer"
+                            class="btn btn-primary fw-bold px-3 px-md-4 py-2 rounded-pill shadow mt-2 mt-sm-0"
+                            style="pointer-events: auto;">
+                                <i class="fa-brands fa-facebook me-2"></i>Visitar nuestro Facebook
+                            </a>
+                        </div>
+
+                        <!-- Controles Anterior / Siguiente -->
+                        <button class="carousel-control-prev z-3" type="button" data-bs-target="#carruselNovedades" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Anterior</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carruselNovedades" data-bs-slide="next">
+                        <button class="carousel-control-next z-3" type="button" data-bs-target="#carruselNovedades" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Siguiente</span>
                         </button>
@@ -126,65 +118,79 @@
                             </p>
 
                             <!-- IMAGEN DE RELLENO (Empujada hacia abajo automáticamente) -->
-                            <div class="mt-auto rounded-4 overflow-hidden shadow-sm border border-white">
-                                <img src="img/comunidad.jpg" alt="Nuestra Comunidad" class="w-100 object-fit-cover" style="height: 240px;">
+                            <!-- VIDEO DE FACEBOOK -->
+                            <!-- VIDEO DE FACEBOOK (Reel) -->
+                            <div class="mt-auto d-flex justify-content-center">
+                                <div class="rounded-4 overflow-hidden shadow-sm border border-white" style="width: 267px; height: 476px; max-width: 100%;">
+                                    <iframe 
+                                        src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1449568905649466%2F&show_text=false&width=267&t=0" 
+                                        width="267" 
+                                        height="476" 
+                                        style="border:none;overflow:hidden" 
+                                        scrolling="no" 
+                                        frameborder="0" 
+                                        allowfullscreen="true" 
+                                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                                    </iframe>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 3. COLUMNA DERECHA (5 columnas): Agrupa Qué Recibimos y Donación -->
-                <div class="col-lg-5">
-                    <div class="row g-4">
+                <div class="col-lg-5 d-flex flex-column gap-4">
 
-                        <!-- QUÉ RECIBIMOS -->
-                        <div class="col-12">
-                            <div class="card custom-border shadow-sm" id="seccion-recibimos">
-                                <div class="card-body p-4">
-                                    <h2 class="h5 text-center fw-bold custom-text-blue mb-4">
-                                        <i class="fa-solid fa-hand-holding-heart text-danger me-2"></i>¿Qué recibimos?
-                                    </h2>
-                                    <div class="donation-item bg-light rounded-4 p-3 mb-3 d-flex align-items-center shadow-sm border border-white">
-                                        <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
-                                            <i class="fa-solid fa-wheelchair text-success fs-4"></i>
-                                        </div>
-                                        <p class="mb-0 fw-medium text-dark">Sillas de ruedas,<br>bastones, camas clínicas</p>
-                                    </div>
-                                    <div class="donation-item bg-light rounded-4 p-3 mb-3 d-flex align-items-center shadow-sm border border-white">
-                                        <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
-                                            <i class="fa-solid fa-pump-medical text-success fs-4"></i>
-                                        </div>
-                                        <p class="mb-0 fw-medium text-dark">Pañales e insumos<br>médicos</p>
-                                    </div>
-                                    <div class="donation-item bg-light rounded-4 p-3 d-flex align-items-center shadow-sm border border-white">
-                                        <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
-                                            <i class="fa-solid fa-basket-shopping text-success fs-4"></i>
-                                        </div>
-                                        <p class="mb-0 fw-medium text-dark">Alimentos y juguetes<br>(Campañas)</p>
-                                    </div>
+                    <!-- QUÉ RECIBIMOS -->
+                    <div class="card custom-border shadow-sm" id="seccion-recibimos">
+                        <div class="card-body p-4">
+                            <h2 class="h5 text-center fw-bold custom-text-blue mb-4">
+                                <i class="fa-solid fa-hand-holding-heart text-danger me-2"></i>¿Qué recibimos?
+                            </h2>
+                            <div class="donation-item bg-light rounded-4 p-3 mb-3 d-flex align-items-center shadow-sm border border-white">
+                                <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
+                                    <i class="fa-solid fa-wheelchair text-success fs-4"></i>
                                 </div>
+                                <p class="mb-0 fw-medium text-dark">Sillas de ruedas,<br>bastones, camas clínicas</p>
+                            </div>
+                            <div class="donation-item bg-light rounded-4 p-3 mb-3 d-flex align-items-center shadow-sm border border-white">
+                                <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
+                                    <i class="fa-solid fa-pump-medical text-success fs-4"></i>
+                                </div>
+                                <p class="mb-0 fw-medium text-dark">Pañales e insumos<br>médicos</p>
+                            </div>
+                            <div class="donation-item bg-light rounded-4 p-3 d-flex align-items-center shadow-sm border border-white">
+                                <div class="bg-white rounded-circle d-flex justify-content-center align-items-center shadow-sm me-3 flex-shrink-0" style="width: 50px; height: 50px;">
+                                    <i class="fa-solid fa-basket-shopping text-success fs-4"></i>
+                                </div>
+                                <p class="mb-0 fw-medium text-dark">Alimentos y juguetes<br>(Campañas)</p>
                             </div>
                         </div>
-
-                        <!-- DATOS PARA DONACIÓN -->
-                        <div class="col-12">
-                            <div class="card custom-border shadow-sm" id="seccion-donacion">
-                                <div class="card-body p-4" id="datosTransferencia">
-                                    <h2 class="h5 text-center fw-bold custom-text-blue mb-4"><i class="fa-solid fa-hand-holding-dollar me-2" style="color: rgb(33, 140, 24);"></i>DATOS PARA DONACIÓN</h2>
-                                    <p class="mb-2" style="font-size: 1.1rem;"><strong>Banco:</strong> Banco Estado</p>
-                                    <p class="mb-2" style="font-size: 1.1rem;"><strong>Tipo de Cuenta:</strong> Cuenta de Ahorro</p>
-                                    <p class="mb-2" style="font-size: 1.1rem;"><strong>Número de Cuenta:</strong> 35161386136</p>
-                                    <p class="mb-2" style="font-size: 1.1rem;"><strong>RUT:</strong> 65.333.980-1</p>
-                                    <p class="mb-4" style="font-size: 1.1rem;"><strong>Correo:</strong> orgdiscapacidadhuechuraba@gmail.com</p>
-                                    <button type="button" id="btnCopiar" class="btn btn-success w-100 fw-bold rounded-3 shadow-sm py-3 fs-5">
-                                        <span id="textoCopiar">Copiar datos de transferencia</span> <i class="fa-solid fa-copy ms-2" id="iconoCopiar"></i>
-                                    </button>
-                                    <div id="estadoCopiar" class="visually-hidden" role="status" aria-live="polite"></div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+
+                    <!-- DATOS PARA DONACIÓN -->
+                    <div class="card custom-border shadow-sm flex-grow-1" id="seccion-donacion">
+                        <div class="card-body p-4 d-flex flex-column justify-content-between" id="datosTransferencia">
+                            <h2 class="h5 text-center fw-bold custom-text-blue mb-3">
+                                <i class="fa-solid fa-hand-holding-dollar me-2" style="color: rgb(33, 140, 24);"></i>DATOS PARA DONACIÓN
+                            </h2>
+
+                            <!-- Bloque de datos centrado verticalmente y ordenado -->
+                            <div class="bg-light rounded-4 p-3 border my-auto">
+                                <p class="mb-2 pb-2 border-bottom" style="font-size: 1.05rem;"><strong>Banco:</strong> Banco Estado</p>
+                                <p class="mb-2 pb-2 border-bottom" style="font-size: 1.05rem;"><strong>Tipo de Cuenta:</strong> Cuenta de Ahorro</p>
+                                <p class="mb-2 pb-2 border-bottom" style="font-size: 1.05rem;"><strong>Número de Cuenta:</strong> 35161386136</p>
+                                <p class="mb-2 pb-2 border-bottom" style="font-size: 1.05rem;"><strong>RUT:</strong> 65.333.980-1</p>
+                                <p class="mb-0 text-break" style="font-size: 1.05rem;"><strong>Correo:</strong> orgdiscapacidadhuechuraba@gmail.com</p>
+                            </div>
+
+                            <button type="button" id="btnCopiar" class="btn btn-success w-100 fw-bold rounded-3 shadow-sm py-3 fs-5 mt-3">
+                                <span id="textoCopiar">Copiar datos de transferencia</span> <i class="fa-solid fa-copy ms-2" id="iconoCopiar"></i>
+                            </button>
+                            <div id="estadoCopiar" class="visually-hidden" role="status" aria-live="polite"></div>
+                        </div>
+                    </div>
+
                 </div> <!-- FIN COLUMNA DERECHA -->
 
                 <!-- 4. UBICACIÓN (Abajo, ancho completo: 12 columnas) -->
@@ -207,7 +213,9 @@
                                     <p class="text-center mt-3 fw-bold" style="font-size: 1.1rem;"><i class="fa-solid fa-location-dot me-2"></i>Los Chercanes 2065, Huechuraba</p>
                                 </div>
                                 <div class="col-md-6 text-center text-md-start">
-                                    <p class="mb-4 text-secondary" style="font-size: 1.1rem;">Atendemos de lunes a viernes en nuestra sede comunitaria. ¡Te esperamos para compartir en comunidad!</p>
+                                    <p class="mb-4 text-secondary" style="font-size: 1.1rem;">
+                                        <i class="fa-regular fa-clock me-2 text-primary"></i>Atendemos <strong>todos los días de 9:00 a 19:00 hrs</strong> en nuestra sede comunitaria. ¡Te esperamos para compartir en comunidad!
+                                    </p>
                                     <a href="tel:+569 9909 8596" class="btn btn-success fw-bold rounded-3 shadow-sm py-3 px-4 text-decoration-none text-white w-100 fs-5">
                                         Llamar / Contacto:<br><span class="fw-normal">+56 9 9909 8596</span>
                                     </a>
@@ -222,14 +230,21 @@
 
         <!-- FOOTER ORIGINAL -->
         <footer class="footer-bg p-4 text-center position-relative mt-auto">
-            <p class="mb-1" style="font-size: 1.1rem;">¿Quiénes Somos?</p>
-            <p class="mb-1" style="font-size: 1.1rem;">Ubicación y Contacto</p>
-            <p class="mb-2" style="font-size: 1.1rem;">Donaciones</p>
-            <p class="mb-0 fw-bold custom-text-blue" style="font-size: 1.1rem;">@organizacion.discapacidad</p>
+            <p class="mb-1" style="font-size: 1.1rem;">
+                <a href="#seccion-quienes-somos" class="text-decoration-none text-dark">¿Quiénes Somos?</a>
+            </p>
+            <p class="mb-1" style="font-size: 1.1rem;">
+                <a href="#seccion-ubicacion" class="text-decoration-none text-dark">Ubicación y Contacto</a>
+            </p>
+            <p class="mb-2" style="font-size: 1.1rem;">
+                <a href="#seccion-donacion" class="text-decoration-none text-dark">Donaciones</a>
+            </p>
+            <p class="mb-0 fw-bold custom-text-blue" style="font-size: 1.1rem;">
+                <a href="https://www.facebook.com/organizacion.discapacidad" target="_blank" class="text-decoration-none text-dark">@organizacion.discapacidad</a>
+            </p>
 
-            <a href="login.html" class="admin-access text-decoration-none text-secondary bg-white rounded border shadow-sm" title="Acceso Voluntarios">
-                <i class="fa-solid fa-rotate fs-4 mb-1" style="color: #3498db;"></i><br>
-                <span style="font-size: 0.6rem; font-weight: bold;">VOLUNTARIOS</span>
+            <a href="login.html" id="btnAccesoVoluntarios" class="admin-access text-decoration-none text-secondary bg-white rounded border shadow-sm" title="Acceso Voluntarios">
+                <i class="fa-solid fa-user-shield fs-4 mb-1" style="color: #3498db;"></i><br>
             </a>
         </footer>
 
@@ -243,7 +258,7 @@
         </div>
         <div class="offcanvas-body">
             <div class="list-group list-group-flush fs-5">
-                <a href="#seccion-feed" class="list-group-item list-group-item-action border-0 py-3"><i class="fa-solid fa-newspaper text-primary me-3"></i>Novedades</a>
+                <a href="#seccion-feed" class="list-group-item list-group-item-action border-0 py-3"><i class="fa-solid fa-newspaper text-primary me-3"></i>Facebook</a>
                 <a href="#seccion-quienes-somos" class="list-group-item list-group-item-action border-0 py-3"><i class="fa-solid fa-users text-info me-3"></i>Quiénes Somos</a>
                 <a href="#seccion-recibimos" class="list-group-item list-group-item-action border-0 py-3"><i class="fa-solid fa-hand-holding-heart text-danger me-3"></i>¿Qué recibimos?</a>
                 <a href="#seccion-donacion" class="list-group-item list-group-item-action border-0 py-3"><i class="fa-solid fa-hand-holding-dollar text-success me-3"></i>Donaciones</a>
