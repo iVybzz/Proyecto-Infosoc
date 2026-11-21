@@ -29,7 +29,7 @@ session_set_cookie_params([
     'path' => '/',
     'secure' => true,      // Obligatorio para enviar cookies entre distintos dominios
     'httponly' => true,    // Evita que el Javascript malicioso robe la cookie
-    'samesite' => 'None'   // Permite que la cookie viaje de Vercel a AlwaysData
+    'samesite' => 'Lax'   // Permite que la cookie viaje de Vercel a AlwaysData
 ]);
 session_start();
 
