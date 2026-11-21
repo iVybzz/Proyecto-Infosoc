@@ -91,14 +91,22 @@
                 <!-- Filtros por categoría: botones en escritorio -->
                 <div class="d-none d-lg-flex gap-3 mb-3 flex-wrap" id="filtrosEscritorio" role="group" aria-label="Filtrar por categoría"></div>
 
-                                <!-- Contenedor flex para alinear el resumen y el botón de actualizar -->
-                <div class="d-flex justify-content-between align-items-end mb-2">
+                    <!-- Contenedor flex para alinear el resumen y el botón de actualizar -->
+                <div class="d-flex justify-content-between align-items-end mb-2 gap-2">
                     <p class="text-secondary small mb-0" id="resumen" role="status" aria-live="polite"></p>
                     
-                    <!-- Botón Refrescar (Visible en TODAS las pantallas) -->
-                    <button id="btnRefrescar" class="btn btn-outline-primary btn-sm shadow-sm d-inline-flex align-items-center gap-2" title="Actualizar datos">
-                        <i class="fa-solid fa-arrows-rotate"></i> <span>Actualizar</span>
-                    </button>
+                    <div class="d-flex align-items-center gap-2">
+                        <!-- Nuevo botón: Agregar activo (solo móvil) -->
+                        <button type="button" class="btn btn-primary btn-sm shadow-sm d-inline-flex d-lg-none align-items-center gap-1"
+                                data-bs-toggle="modal" data-bs-target="#modalRegistrar" title="Registrar nuevo activo">
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i> <span>Nuevo</span>
+                        </button>
+
+                        <!-- Botón Refrescar (Visible en TODAS las pantallas) -->
+                        <button id="btnRefrescar" class="btn btn-outline-primary btn-sm shadow-sm d-inline-flex align-items-center gap-2" title="Actualizar datos">
+                            <i class="fa-solid fa-arrows-rotate"></i> <span>Actualizar</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Lista de tarjetas (MÓVIL) con scroll independiente -->
