@@ -131,3 +131,27 @@ if (formularioLogin) {
         }
     });
 }
+
+/* ============ ACCESO INTELIGENTE (VOLUNTARIOS) ============ */
+const btnAccesoVoluntarios = document.getElementById('btnAccesoVoluntarios');
+
+if (btnAccesoVoluntarios) {
+    btnAccesoVoluntarios.addEventListener('click', async function (e) {
+        e.preventDefault();
+        try {
+            const res = await fetch('https://infosoc.alwaysdata.net/api/verificar_sesion.php', {
+                credentials: 'include'
+            });
+            const datos = await res.json();
+
+            if (res.ok && datos.status === 'ok') {
+                window.location.href = 'inventario.html';
+            } else {
+                window.location.href = 'login.html';
+            }
+        } catch (error) {
+            // Si falla la conexión, ir al login como respaldo
+            window.location.href = 'login.html';
+        }
+    });
+}
